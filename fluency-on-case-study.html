@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fluency On Case Study</title>
+<link rel="icon" href="assets/favicon.png" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;overflow-x:hidden}
+:root{
+  --black:#0d0d0b;--white:#faf8f4;--sand:#ede8dc;--border:#ddd9d0;
+  --mid:#888880;--accent:#c8541c;
+  --syne:'Syne',sans-serif;--body:'DM Sans',sans-serif;--serif:'Instrument Serif',serif;
+}
+body{background:var(--white);color:var(--black);font-family:var(--body);font-size:17px;line-height:1.75;overflow-x:hidden;cursor:none;opacity:0;transition:opacity 0.4s ease}
+body.page-ready{opacity:1}
+body.page-leaving{opacity:0}
+img{max-width:100%;height:auto;display:block}
+
+/* CURSOR */
+.cdot{position:fixed;width:7px;height:7px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:multiply;transition:width 0.2s,height 0.2s;left:0;top:0}
+.cring{position:fixed;width:38px;height:38px;border:1px solid rgba(200,84,28,0.35);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);left:0;top:0}
+/* NAV */
+.case-study-home{position:fixed;top:28px;left:52px;z-index:101;font-family:var(--syne);font-weight:800;font-size:0.8rem;letter-spacing:0.04em;text-transform:uppercase;text-decoration:none;color:var(--black);transition:opacity 0.2s,color 0.3s}
+.case-study-home:hover{opacity:0.7}
+.case-study-home em{color:var(--accent);font-style:normal}
+.case-study-home.nav-over-dark{color:var(--white)}
+.case-study-home.nav-over-dark em{color:var(--accent)}
+.case-study-nav-wrap{position:fixed;bottom:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:14px 52px 18px;border-top:1px solid var(--border);transition:opacity 0.35s ease,transform 0.35s ease,border-color 0.3s,color 0.3s;opacity:0;pointer-events:none;transform:translateY(8px)}
+.case-study-nav-wrap.nav-visible{opacity:1;pointer-events:auto;transform:translateY(0)}
+.case-study-nav-wrap.nav-over-dark{border-color:rgba(255,255,255,0.15)}
+.case-study-nav-wrap.nav-over-dark .case-study-nav a{color:rgba(250,248,244,0.55)}
+.case-study-nav-wrap.nav-over-dark .case-study-nav a:hover{color:rgba(250,248,244,0.9)}
+.case-study-nav-wrap.nav-over-dark .case-study-nav a::before{background:rgba(250,248,244,0.25)}
+.case-study-nav-wrap.nav-over-dark .case-study-nav a:hover::before{background:rgba(250,248,244,0.55)}
+.case-study-nav-wrap.nav-over-dark .case-study-nav a.active{color:var(--white);background:rgba(200,84,28,0.25)}
+.case-study-nav-wrap.nav-over-dark .case-study-nav a.active::before{background:var(--accent);box-shadow:0 0 0 2px rgba(200,84,28,0.4)}
+.case-study-nav{display:flex;align-items:center;gap:28px;flex-wrap:wrap;justify-content:center}
+.case-study-nav a{font-family:var(--syne);font-size:0.58rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--mid);text-decoration:none;display:flex;align-items:center;gap:10px;transition:color 0.3s,background 0.3s;position:relative;white-space:nowrap;padding:8px 14px;border-radius:20px}
+.case-study-nav a::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--border);flex-shrink:0;transition:background 0.3s,transform 0.3s}
+.case-study-nav a:hover{color:var(--black)}
+.case-study-nav a:hover::before{background:var(--mid)}
+.case-study-nav a.active{color:var(--black);background:rgba(200,84,28,0.1);font-weight:700}
+.case-study-nav a.active::before{background:var(--accent);transform:scale(1.2);box-shadow:0 0 0 2px rgba(200,84,28,0.3)}
+body.has-bottom-nav{padding-bottom:64px}
+/* MARQUEE */
+.marquee-wrap{border-top:1px solid var(--border);border-bottom:1px solid var(--border);overflow:hidden;padding:12px 0;white-space:nowrap}
+.marquee-track{display:inline-flex;animation:marquee 22s linear infinite}
+.marquee-item{display:inline-flex;align-items:center;gap:20px;padding:0 20px;font-family:var(--syne);font-size:0.62rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--mid)}
+.m-dot{width:3px;height:3px;border-radius:50%;background:var(--accent);flex-shrink:0}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.hero{min-height:92vh;padding:130px 52px 80px;display:flex;flex-direction:column;justify-content:flex-end;border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+.hero-ghost{position:absolute;top:50%;left:44px;transform:translateY(-52%);font-family:var(--serif);font-style:italic;font-size:clamp(16vw,22vw,300px);color:transparent;-webkit-text-stroke:1px rgba(13,13,11,0.042);line-height:0.85;pointer-events:none;user-select:none;white-space:nowrap;letter-spacing:-0.04em}
+.hero-tag{font-family:var(--syne);font-size:0.68rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:24px;display:flex;align-items:center;gap:14px}
+.hero-tag::before{content:'';width:28px;height:1px;background:var(--accent)}
+.hero-demo{font-family:var(--syne);font-size:0.7rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--white);background:var(--accent);text-decoration:none;display:inline-block;margin-bottom:32px;padding:14px 28px;border-radius:4px;border:1px solid var(--accent);transition:background 0.2s,color 0.2s,transform 0.2s}
+.hero-demo:hover{background:transparent;color:var(--accent);transform:translateY(-2px)}
+.hero-title{font-family:var(--serif);font-size:clamp(3rem,7vw,7.5rem);font-style:italic;line-height:0.92;letter-spacing:-0.03em;margin-bottom:40px}
+.hero-title strong{font-style:normal;font-family:var(--syne);font-weight:800;font-size:0.46em;display:block;letter-spacing:-0.01em;margin-bottom:8px}
+.hero-meta-row{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--border);padding-top:36px}
+.hm{padding-right:40px;border-right:1px solid var(--border)}
+.hm:last-child{border-right:none;padding-left:40px;padding-right:0}
+.hm:nth-child(2),.hm:nth-child(3){padding-left:40px}
+.hm-label{font-family:var(--syne);font-size:0.6rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--mid);margin-bottom:7px}
+.hm-val{font-size:0.9rem;line-height:1.4}
+.s{padding:80px 52px;border-bottom:1px solid var(--border)}
+.s-dark{background:var(--black);color:var(--white)}
+.s-sand{background:var(--sand)}
+.s-label{font-family:var(--syne);font-size:0.66rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:18px;display:flex;align-items:center;gap:12px}
+.s-label::after{content:'';flex:1;height:1px;background:var(--accent);opacity:0.25}
+h2.s-title{font-family:var(--serif);font-size:clamp(2rem,3.8vw,3.5rem);font-style:italic;line-height:1.1;letter-spacing:-0.02em;margin-bottom:40px;max-width:640px}
+.cols2{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start}
+.cols2w{display:grid;grid-template-columns:3fr 2fr;gap:72px;align-items:start}
+.prose{font-size:1.02rem;line-height:1.85;color:rgba(13,13,11,0.72)}
+.prose strong{color:var(--black);font-weight:500}
+.prose-light{color:rgba(250,248,244,0.68)}
+.pq{font-family:var(--serif);font-style:italic;font-size:1.4rem;line-height:1.55;border-left:2px solid var(--accent);padding-left:24px;margin:28px 0;color:var(--black)}
+.pq cite{display:block;margin-top:11px;font-size:0.7rem;font-style:normal;font-family:var(--syne);font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--mid)}
+.pq.dark{color:var(--white)}.pq.dark cite{color:rgba(250,248,244,0.4)}
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid;border-bottom:1px solid;margin:40px 0}
+.stat-row.light{border-color:var(--border)}.stat-row.dark{border-color:rgba(255,255,255,0.1)}
+.stat{padding:28px 0;border-right:1px solid}
+.stat-row.light .stat{border-color:var(--border)}.stat-row.dark .stat{border-color:rgba(255,255,255,0.1)}
+.stat:last-child{border-right:none;padding-left:40px}.stat:not(:first-child){padding-left:40px}
+.stat-n{font-family:var(--syne);font-size:2.6rem;font-weight:800;letter-spacing:-0.04em;line-height:1;margin-bottom:6px}
+.stat-n span{color:var(--accent)}.stat-d{font-size:0.8rem;color:var(--mid);line-height:1.4}
+.stat-row.dark .stat-n{color:var(--white)}.stat-row.dark .stat-d{color:rgba(250,248,244,0.38)}
+.card{background:var(--white);border:1px solid var(--border);border-radius:4px;padding:28px}
+.card-label{font-family:var(--syne);font-size:0.6rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);margin-bottom:11px}
+.finding{display:flex;gap:16px;padding:13px 0;border-bottom:1px solid var(--border);align-items:flex-start}
+.finding:last-child{border-bottom:none}
+.fn{font-family:var(--syne);font-size:0.66rem;font-weight:700;color:var(--accent);min-width:26px;padding-top:2px}
+.ft{font-size:0.93rem;line-height:1.6}.ft strong{font-weight:500}
+.ib{background:var(--sand);border-left:3px solid var(--accent);border-radius:0 4px 4px 0;padding:20px 24px;margin-bottom:11px}
+.ib-q{font-family:var(--serif);font-style:italic;font-size:1.05rem;line-height:1.6;color:var(--black);margin-bottom:8px}
+.ib-who{font-family:var(--syne);font-size:0.6rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--mid)}
+.ib-who span{color:var(--accent)}
+.iter{border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:12px}
+.iter-head{display:flex;align-items:center;gap:13px;padding:12px 20px;background:var(--sand);border-bottom:1px solid var(--border)}
+.ver{font-family:var(--syne);font-size:0.57rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;padding:3px 8px;border-radius:20px;background:var(--black);color:var(--white)}
+.ver.v2{background:var(--accent)}.ver.v3{background:#2d6a4f}
+.iter-title{font-family:var(--syne);font-size:0.84rem;font-weight:600}
+.iter-body{padding:16px 20px}
+.iter-body p{font-size:0.87rem;line-height:1.65;color:var(--mid)}
+.verdict{margin-top:8px;font-size:0.8rem;font-weight:600;font-family:var(--syne)}
+.vf{color:#c0392b}.vp{color:var(--accent)}.vg{color:#2d6a4f}
+.dtable{border:1px solid var(--border);border-radius:4px;overflow:hidden}
+.drow{display:grid;grid-template-columns:1fr 1fr}
+.drow+.drow{border-top:1px solid var(--border)}
+.dcell{padding:22px 28px}
+.dcell+.dcell{border-left:1px solid var(--border)}
+.dc-lab{font-family:var(--syne);font-size:0.58rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:8px}
+.dc-ch{color:var(--mid)}.dc-re{color:var(--accent)}
+.dc-text{font-size:0.88rem;line-height:1.65}
+.dc-text strong{font-weight:500}
+.outcome-band{display:grid;grid-template-columns:repeat(3,1fr);background:var(--black)}
+.oi{padding:44px 40px;border-right:1px solid rgba(255,255,255,0.07)}
+.oi:last-child{border-right:none}
+.on-num{font-family:var(--syne);font-size:3rem;font-weight:800;letter-spacing:-0.04em;color:var(--white);margin-bottom:8px}
+.on-num span{color:var(--accent)}
+.on-lab{font-size:0.86rem;color:rgba(250,248,244,0.44);line-height:1.5}
+.principle{padding:26px 0;border-bottom:1px solid var(--border);display:grid;grid-template-columns:160px 1fr;gap:36px}
+.principle:last-child{border-bottom:none}
+.pr-num{font-family:var(--syne);font-size:0.62rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);padding-top:3px}
+.pr-body h3{font-family:var(--syne);font-size:0.96rem;font-weight:700;margin-bottom:6px}
+.pr-body p{font-size:0.88rem;color:var(--mid);line-height:1.65}
+.tools{display:flex;flex-wrap:wrap;gap:7px;margin-top:20px}
+.tool{font-family:var(--syne);font-size:0.64rem;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;padding:6px 13px;border-radius:2px;border:1px solid var(--border);color:var(--mid)}
+.ann-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}
+.ann{display:flex;gap:10px;align-items:flex-start}
+.an{font-family:var(--syne);font-size:0.6rem;font-weight:700;color:var(--accent);min-width:18px;padding-top:2px}
+.at{font-size:0.79rem;color:var(--mid);line-height:1.5}
+.at strong{color:var(--black)}
+/* VIDEO */
+.video-wrap{border-radius:8px;overflow:hidden;border:1px solid var(--border);box-shadow:0 6px 28px rgba(0,0,0,0.07);background:#111}
+.video-wrap video{display:block;width:100%;height:auto}
+.video-eyebrow{font-family:var(--syne);font-size:0.58rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--mid);margin-bottom:8px}
+.video-preview{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;padding:40px 52px;border-bottom:1px solid var(--border)}
+.video-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:28px}
+/* USER FLOW */
+.flow-section{margin-bottom:44px}
+.flow-eyebrow{font-family:var(--syne);font-size:0.62rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--mid);margin-bottom:16px}
+.flow-eyebrow span{color:var(--accent)}
+.flow-note{font-size:0.8rem;color:var(--mid);line-height:1.5;margin-top:12px}
+.userflow{display:grid;grid-auto-columns:1fr;grid-auto-flow:column;border:1px solid var(--border);border-radius:6px;overflow:hidden;margin:0}
+.userflow-step{position:relative;padding:18px 16px 16px;background:var(--white);border-right:1px solid var(--border);display:flex;flex-direction:column;gap:3px}
+.userflow-step:last-child{border-right:none}
+.userflow-step.auto{background:#fdf5f1}
+.userflow-step::after{content:'→';position:absolute;right:-10px;top:50%;transform:translateY(-50%);font-size:0.9rem;color:var(--accent);z-index:2;line-height:1}
+.userflow-step:last-child::after{display:none}
+.step-num{font-family:var(--syne);font-size:0.5rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--mid);margin-bottom:1px}
+.userflow-step.auto .step-num{color:var(--accent)}
+.step-label{font-family:var(--syne);font-size:0.73rem;font-weight:700;color:var(--black);line-height:1.25}
+.userflow-step.auto .step-label{color:var(--accent)}
+.step-sub{font-family:var(--body);font-size:0.68rem;color:var(--mid);line-height:1.4;margin-top:1px}
+.auto-badge{font-family:var(--syne);font-size:0.46rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;background:var(--accent);color:white;padding:2px 5px;border-radius:2px;display:inline-block;margin-bottom:3px;width:fit-content}
+/* AFFINITY */
+.affinity-board{background:#f0ede6;border:1px solid var(--border);border-radius:8px;padding:30px 26px;margin-top:44px}
+.affinity-board-label{font-family:var(--syne);font-size:0.6rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--mid);margin-bottom:18px}
+.affinity-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.affinity-cluster{background:white;border-radius:4px;padding:16px;border:1px solid var(--border)}
+.cluster-label{font-family:var(--syne);font-size:0.55rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:3px 8px;border-radius:2px;display:inline-block;margin-bottom:11px}
+.cl-r{background:#fde8e8;color:#a93226}
+.cl-o{background:#fef0e6;color:#c8541c}
+.cl-g{background:#e6f4ed;color:#2d6a4f}
+.cl-d{background:#e8e8e5;color:#3a3a38}
+.sticky{background:#fffde7;border-top:3px solid #f0db50;border:1px solid #f0db50;border-radius:2px;padding:7px 9px;font-size:0.73rem;line-height:1.45;color:#333;margin-bottom:5px}
+.sticky:last-child{margin-bottom:0}
+.sticky.p{background:#fce4ec;border-color:#f48fb1;border-top-color:#f48fb1}
+.sticky.g{background:#e8f5e9;border-color:#a5d6a7;border-top-color:#a5d6a7}
+.sticky.o{background:#fff3e0;border-color:#ffcc80;border-top-color:#ffcc80}
+.affinity-insight{margin-top:14px;background:var(--black);color:var(--white);border-radius:4px;padding:16px 20px;display:flex;gap:12px;align-items:flex-start}
+.ai-tag{font-family:var(--syne);font-size:0.54rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;background:var(--accent);color:white;padding:3px 7px;border-radius:2px;white-space:nowrap;margin-top:2px;flex-shrink:0}
+.ai-body{font-size:0.83rem;color:rgba(250,248,244,0.68);line-height:1.6}
+.ai-body strong{color:var(--white);font-weight:500}
+/* MENTAL MODEL */
+.mm-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;border-radius:4px;overflow:hidden;border:1px solid var(--border);margin:28px 0}
+.mm-panel{padding:32px 28px}
+.mm-t{background:var(--black)}
+.mm-s{background:var(--accent)}
+.mm-role-label{font-family:var(--syne);font-size:0.56rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:10px}
+.mm-q{font-family:var(--serif);font-style:italic;font-size:1.35rem;line-height:1.25;color:white;margin-bottom:16px}
+.mm-list{list-style:none}
+.mm-list li{font-family:var(--syne);font-size:0.68rem;font-weight:600;letter-spacing:0.04em;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.7);display:flex;gap:9px;align-items:center}
+.mm-list li::before{content:'';width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,0.35);flex-shrink:0}
+.mm-list li:last-child{border-bottom:none}
+/* HEATMAP */
+.hm-mock{background:var(--white);border:1px solid var(--border);border-radius:4px;overflow:hidden}
+.hm-mock-top{background:var(--sand);padding:10px 16px;border-bottom:1px solid var(--border);font-family:var(--syne);font-size:0.56rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--mid)}
+.hm-grid{display:grid;grid-template-columns:60px repeat(7,1fr);gap:3px;align-items:center}
+.hm-day{font-family:var(--syne);font-size:0.5rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--mid);text-align:center}
+.hm-name{font-family:var(--syne);font-size:0.53rem;font-weight:600;color:var(--mid);text-align:right;padding-right:6px}
+.hm-cell{height:22px;border-radius:2px}
+.h0{background:#ede8dc}.h1{background:#e8c3b4;opacity:0.55}.h2{background:#d4845a;opacity:0.65}.h3{background:#c8541c;opacity:0.78}.h4{background:#c8541c}
+.hm-legend{display:flex;align-items:center;gap:5px;margin-top:9px;font-family:var(--syne);font-size:0.52rem;font-weight:600;letter-spacing:0.06em;color:var(--mid)}
+.hm-lg{width:11px;height:11px;border-radius:2px}
+.reveal{opacity:0;transform:translateY(-28px);transition:opacity 0.7s cubic-bezier(0.22,1,0.36,1),transform 0.7s cubic-bezier(0.22,1,0.36,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+@media(max-width:900px){
+  .hero,.s{padding-left:24px;padding-right:24px}
+  .hero{padding-top:100px;padding-bottom:60px}
+  .s{padding:60px 24px}
+  .case-study-home{left:24px;top:20px}
+  .case-study-nav-wrap{padding:12px 24px 16px}
+  .case-study-nav{gap:20px}
+  .hero-meta-row{grid-template-columns:1fr 1fr}
+  .hm{padding:14px 0;border-right:none;border-bottom:1px solid var(--border)}
+  .hm:nth-child(2),.hm:nth-child(3){padding-left:0}
+  .hm:last-child{padding-left:0}
+  .cols2,.cols2w{grid-template-columns:1fr;gap:32px}
+  .stat-row{grid-template-columns:1fr 1fr}
+  .outcome-band{grid-template-columns:1fr}
+  .ann-grid{grid-template-columns:1fr}
+  .affinity-grid{grid-template-columns:1fr}
+  .mm-grid{grid-template-columns:1fr}
+  .drow{grid-template-columns:1fr}
+  .dcell+.dcell{border-left:none;border-top:1px solid var(--border)}
+  .principle{grid-template-columns:1fr;gap:10px}
+  .video-grid{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .hero,.s{padding-left:20px;padding-right:20px}
+  .hero{padding-top:90px;padding-bottom:48px}
+  .s{padding:48px 20px}
+  .hero-meta-row{grid-template-columns:1fr}
+  .case-study-home{left:20px;top:16px;font-size:0.72rem}
+  .case-study-nav-wrap{padding:10px 20px 14px}
+  .case-study-nav{gap:16px}
+  .case-study-nav a{font-size:0.54rem}
+  body.has-bottom-nav{padding-bottom:80px}
+}
+@media(hover:none) and (pointer:coarse){
+  body{cursor:auto}
+  .cdot,.cring{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="cdot" id="cdot"></div>
+<div class="cring" id="cring"></div>
+
+<a href="index.html" class="case-study-home">Genna <em>Gonzaga</em></a>
+<div class="case-study-nav-wrap">
+  <nav class="case-study-nav">
+    <a href="#problem" class="nav-item active">Problem</a>
+    <a href="#research" class="nav-item">Research</a>
+    <a href="#strategy" class="nav-item">Strategy</a>
+    <a href="#flows" class="nav-item">User Flows</a>
+    <a href="#outcomes" class="nav-item">Outcomes</a>
+  </nav>
+</div>
+
+<section class="hero">
+  <div class="hero-ghost" aria-hidden="true">Fluency</div>
+  <div class="hero-tag">Case Study — Platform Design &middot; EdTech &middot; Full Stack</div>
+  <a href="https://fluency-on-deploy.vercel.app/" target="_blank" rel="noopener noreferrer" class="hero-demo">View live demo →</a>
+  <h1 class="hero-title">
+    <strong>Fluency On</strong>
+    Giving educators<br>their time back.
+  </h1>
+  <div class="hero-meta-row">
+    <div class="hm"><div class="hm-label">Role</div><div class="hm-val">Engineer &amp; Product Designer</div></div>
+    <div class="hm"><div class="hm-label">Timeline</div><div class="hm-val">2025 &mdash; Present</div></div>
+    <div class="hm"><div class="hm-label">Users</div><div class="hm-val">100+ active learners</div></div>
+    <div class="hm"><div class="hm-label">Stack</div><div class="hm-val">React &middot; Node &middot; PostgreSQL &middot; RBAC</div></div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap" aria-hidden="true">
+  <div class="marquee-track">
+    <div class="marquee-item">Platform Design <div class="m-dot"></div></div>
+    <div class="marquee-item">EdTech <div class="m-dot"></div></div>
+    <div class="marquee-item">Full Stack <div class="m-dot"></div></div>
+    <div class="marquee-item">React &middot; Node &middot; PostgreSQL <div class="m-dot"></div></div>
+    <div class="marquee-item">Dual-Portal Architecture <div class="m-dot"></div></div>
+    <div class="marquee-item">RBAC <div class="m-dot"></div></div>
+    <div class="marquee-item">User Research <div class="m-dot"></div></div>
+    <div class="marquee-item">Workflow Mapping <div class="m-dot"></div></div>
+    <div class="marquee-item">Affinity Diagramming <div class="m-dot"></div></div>
+    <div class="marquee-item">Platform Design <div class="m-dot"></div></div>
+    <div class="marquee-item">EdTech <div class="m-dot"></div></div>
+    <div class="marquee-item">Full Stack <div class="m-dot"></div></div>
+    <div class="marquee-item">React &middot; Node &middot; PostgreSQL <div class="m-dot"></div></div>
+    <div class="marquee-item">Dual-Portal Architecture <div class="m-dot"></div></div>
+    <div class="marquee-item">RBAC <div class="m-dot"></div></div>
+    <div class="marquee-item">User Research <div class="m-dot"></div></div>
+    <div class="marquee-item">Workflow Mapping <div class="m-dot"></div></div>
+    <div class="marquee-item">Affinity Diagramming <div class="m-dot"></div></div>
+  </div>
+</div>
+
+<div class="reveal" style="padding:40px 52px;border-bottom:1px solid var(--border);max-width:640px;margin:0 auto;box-sizing:border-box">
+  <div class="video-eyebrow">Landing Page</div>
+  <div class="video-wrap">
+    <video src="assets/landing.mp4" autoplay loop muted playsinline></video>
+  </div>
+</div>
+
+<!-- 01 PROBLEM -->
+<section class="s s-dark" id="problem">
+  <div class="s-label" style="color:var(--accent)">01 / The Problem</div>
+  <h2 class="s-title reveal" style="color:var(--white)">Google Drive, WhatsApp, and a spreadsheet. That was the school.</h2>
+  <div class="cols2 reveal">
+    <div>
+      <p class="prose prose-light">Before Fluency On existed, Jamile ran her entire school manually. Lessons and homework lived in shared Google Drive folders. All communication with students happened over WhatsApp. Progress was tracked on a spreadsheet she updated by hand after every session.</p>
+      <p class="prose prose-light" style="margin-top:14px">It worked, but only because she compensated for it personally. Every hour she spent managing files and chasing messages was an hour she wasn&rsquo;t teaching.</p>
+      <blockquote class="pq dark" style="margin-top:24px">&ldquo;I feel like I run a small tech company just to teach English.&rdquo;<cite><span>Jamile</span> / Founder &amp; Teacher</cite></blockquote>
+    </div>
+    <div>
+      <div class="card" style="background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.08)">
+        <div class="card-label" style="color:var(--accent)">How it actually worked</div>
+        <div class="finding"><div class="fn">01</div><div class="ft" style="color:rgba(250,248,244,0.7)"><strong style="color:white">Lectures and homework</strong> uploaded to Google Drive folders, shared individually per student</div></div>
+        <div class="finding"><div class="fn">02</div><div class="ft" style="color:rgba(250,248,244,0.7)"><strong style="color:white">All communication</strong> through WhatsApp: scheduling, questions, feedback, reminders</div></div>
+        <div class="finding"><div class="fn">03</div><div class="ft" style="color:rgba(250,248,244,0.7)"><strong style="color:white">Progress tracking</strong> on a spreadsheet she updated herself after each session</div></div>
+        <div class="finding"><div class="fn">04</div><div class="ft" style="color:rgba(250,248,244,0.7)"><strong style="color:white">At-risk detection</strong> happened when a student messaged her first. There was no other signal.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 RESEARCH -->
+<section class="s s-sand" id="research">
+  <div class="s-label">02 / Research</div>
+  <h2 class="s-title reveal">Four interviews. One system held together by habit.</h2>
+  <div class="cols2w">
+    <div class="reveal">
+      <p class="prose">I interviewed Jamile and three students at different proficiency levels. I asked each of them to walk me through a real session: how they found their materials, how they communicated, how they knew what to do next. The Google Drive and WhatsApp setup came up immediately. Students had adapted to it. Jamile had built workarounds on top of workarounds.</p>
+      <div style="margin-top:26px">
+        <div class="ib"><div class="ib-q">&ldquo;Sometimes I finish a lesson and I&rsquo;m not sure if I&rsquo;m done or if I missed something.&rdquo;</div><div class="ib-who"><span>Vanessa</span> / Beginner, balancing full-time work</div></div>
+        <div class="ib"><div class="ib-q">&ldquo;I just want to open it and see what I should do today.&rdquo;</div><div class="ib-who"><span>Maria Eduarda</span> / Intermediate, preparing for relocation</div></div>
+        <div class="ib"><div class="ib-q">&ldquo;I want to know if I&rsquo;m actually improving, not just completing tasks.&rdquo;</div><div class="ib-who"><span>Mariana</span> / Advanced, conversational fluency</div></div>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="card">
+        <div class="card-label">Participants</div>
+        <div class="finding"><div class="fn">T</div><div class="ft"><strong>Jamile</strong> — Founder and educator. Described her full weekly workflow in detail.</div></div>
+        <div class="finding"><div class="fn">S1</div><div class="ft"><strong>Vanessa</strong> — Beginner. Struggled with knowing where she was in a course.</div></div>
+        <div class="finding"><div class="fn">S2</div><div class="ft"><strong>Maria Eduarda</strong> — Intermediate. Had no clear signal for what to do each session.</div></div>
+        <div class="finding"><div class="fn">S3</div><div class="ft"><strong>Mariana</strong> — Advanced. Completion metrics didn't reflect the progress she felt.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="affinity-board reveal">
+    <div class="affinity-board-label">Affinity Map &middot; 4 Participants &middot; Interviews</div>
+    <div class="affinity-grid">
+      <div class="affinity-cluster">
+        <span class="cluster-label cl-r">Admin Overload</span>
+        <div class="sticky p">&ldquo;Onboarding one student takes half a morning.&rdquo;</div>
+        <div class="sticky p">Uploads homework to a new Drive folder per student</div>
+        <div class="sticky p">Sends folder link over WhatsApp</div>
+        <div class="sticky p">Updates spreadsheet by hand after every session</div>
+        <div class="sticky p">&ldquo;I don&rsquo;t know who&rsquo;s behind until they message me.&rdquo;</div>
+      </div>
+      <div class="affinity-cluster">
+        <span class="cluster-label cl-o">Orientation Anxiety</span>
+        <div class="sticky o">&ldquo;I open Drive and scroll until I find the right folder.&rdquo;</div>
+        <div class="sticky o">No clear signal of what&rsquo;s done vs. what&rsquo;s next</div>
+        <div class="sticky o">Had to message Jamile on WhatsApp to ask which lesson was next</div>
+        <div class="sticky o">&ldquo;I just want to open it and know what to do.&rdquo;</div>
+      </div>
+      <div class="affinity-cluster">
+        <span class="cluster-label cl-g">Momentum Gap</span>
+        <div class="sticky g">&ldquo;I want to know I&rsquo;m improving, not just checking boxes.&rdquo;</div>
+        <div class="sticky g">No visual sense of growth over months</div>
+        <div class="sticky g">&ldquo;A streak would make me show up on busy days.&rdquo;</div>
+        <div class="sticky g">Completion % feels abstract, not motivating</div>
+      </div>
+      <div class="affinity-cluster">
+        <span class="cluster-label cl-o">Course Assignment</span>
+        <div class="sticky o">Organises lessons by renaming files with numbers in Drive</div>
+        <div class="sticky o">Shares each student a separate folder link</div>
+        <div class="sticky o">No way to know if a student opened the file</div>
+        <div class="sticky o">Homework returned over WhatsApp, no version history</div>
+      </div>
+      <div class="affinity-cluster">
+        <span class="cluster-label cl-r">At-Risk Detection</span>
+        <div class="sticky p">&ldquo;I find out someone is struggling when they message me.&rdquo;</div>
+        <div class="sticky p">No dashboard for weekly login activity</div>
+        <div class="sticky p">Discovered student drop-off 3 weeks in, completely by accident</div>
+        <div class="sticky p">&ldquo;I want to see who needs a nudge without emailing everyone.&rdquo;</div>
+      </div>
+      <div class="affinity-cluster">
+        <span class="cluster-label cl-d">Role Confusion</span>
+        <div class="sticky">Teacher and students on the same dashboard layout</div>
+        <div class="sticky">Students saw admin controls they didn&rsquo;t need</div>
+        <div class="sticky">&ldquo;I didn&rsquo;t realize I was on the teacher view.&rdquo;</div>
+        <div class="sticky">Both sides felt the tool &ldquo;wasn&rsquo;t made for them&rdquo;</div>
+      </div>
+    </div>
+    <div class="affinity-insight">
+      <span class="ai-tag">&#8627; Key Insight</span>
+      <p class="ai-body"><strong>Two separate information architectures were needed, not one with role-filtered content.</strong> The teacher&rsquo;s job is oversight of people. The student&rsquo;s job is knowing what to do next. Merging them created invisible friction for both.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 03 STRATEGY -->
+<section class="s" id="strategy">
+  <div class="s-label">03 / Strategy</div>
+  <h2 class="s-title reveal">Two mental models. One coherent system.</h2>
+  <div class="cols2 reveal">
+    <div>
+      <p class="prose">The goal wasn&rsquo;t to digitise the Google Drive and WhatsApp setup. It was to replace it entirely. The system needed to do what Jamile was doing manually: deliver content, track progress, surface problems, and keep students oriented, without any of it touching her calendar.</p>
+      <p class="prose" style="margin-top:14px">Each portal was designed around one question. Everything that didn&rsquo;t answer that question was friction the platform should absorb.</p>
+      <div class="mm-grid">
+        <div class="mm-panel mm-t">
+          <div class="mm-role-label">Teacher Portal</div>
+          <div class="mm-q">Who needs my attention?</div>
+          <ul class="mm-list">
+            <li>Students &amp; progress</li>
+            <li>Course assignment</li>
+            <li>At-risk detection</li>
+            <li>Quick onboarding</li>
+          </ul>
+        </div>
+        <div class="mm-panel mm-s">
+          <div class="mm-role-label">Student Portal</div>
+          <div class="mm-q">What do I do today?</div>
+          <ul class="mm-list">
+            <li>Continue where I left off</li>
+            <li>One clear next step</li>
+            <li>Visible progress</li>
+            <li>Streak &amp; consistency</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-label">Jobs to be done</div>
+        <div class="finding"><div class="fn">T1</div><div class="ft"><strong>Onboard in under 3 min,</strong> not 45</div></div>
+        <div class="finding"><div class="fn">T2</div><div class="ft"><strong>Assign to many at once,</strong> not one by one</div></div>
+        <div class="finding"><div class="fn">T3</div><div class="ft"><strong>See who's at-risk</strong> without asking</div></div>
+        <div class="finding"><div class="fn">S1</div><div class="ft"><strong>Find lessons instantly,</strong> no searching</div></div>
+        <div class="finding"><div class="fn">S2</div><div class="ft"><strong>Know when you're done,</strong> unambiguously</div></div>
+        <div class="finding"><div class="fn">S3</div><div class="ft"><strong>Feel improvement,</strong> not just completion</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-grid reveal" style="margin-top:48px">
+    <div>
+      <div class="video-eyebrow">Teacher Portal</div>
+      <div class="video-wrap">
+        <video src="assets/teacher_view.mp4" autoplay loop muted playsinline></video>
+      </div>
+    </div>
+    <div>
+      <div class="video-eyebrow">Student Portal</div>
+      <div class="video-wrap">
+        <video src="assets/portal_aluno.mp4" autoplay loop muted playsinline></video>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 USER FLOWS -->
+<section class="s s-sand" id="flows">
+  <div class="s-label">04 / User Flows</div>
+  <h2 class="s-title reveal">Four flows. All redesigned from scratch.</h2>
+
+  <div class="flow-section reveal">
+    <div class="flow-eyebrow"><span>Flow 01</span> · Teacher onboards a new student</div>
+    <div class="userflow">
+      <div class="userflow-step">
+        <div class="step-num">Step 01</div>
+        <div class="step-label">Add Student</div>
+        <div class="step-sub">Name and email only</div>
+      </div>
+      <div class="userflow-step auto">
+        <div class="auto-badge">Automated</div>
+        <div class="step-label">Invite Sent</div>
+        <div class="step-sub">Token-validated email, no copy-paste</div>
+      </div>
+      <div class="userflow-step">
+        <div class="step-num">Step 02</div>
+        <div class="step-label">Assign Template</div>
+        <div class="step-sub">One click from saved library</div>
+      </div>
+      <div class="userflow-step auto">
+        <div class="auto-badge">Automated</div>
+        <div class="step-label">Lessons Unlock</div>
+        <div class="step-sub">Student can begin immediately</div>
+      </div>
+      <div class="userflow-step auto">
+        <div class="auto-badge">Automated</div>
+        <div class="step-label">Dashboard Live</div>
+        <div class="step-sub">Progress tracking starts, no entry needed</div>
+      </div>
+    </div>
+    <p class="flow-note">25+ manual steps across 3 tools reduced to 2 decisions. Everything else is handled by the system.</p>
+  </div>
+
+  <div class="flow-section reveal">
+    <div class="flow-eyebrow"><span>Flow 02</span> · Course assignment (multi-student)</div>
+    <div class="userflow">
+      <div class="userflow-step">
+        <div class="step-num">Step 01</div>
+        <div class="step-label">Select Course</div>
+        <div class="step-sub">From saved templates</div>
+      </div>
+      <div class="userflow-step">
+        <div class="step-num">Step 02</div>
+        <div class="step-label">Choose Students</div>
+        <div class="step-sub">Multi-select, any number</div>
+      </div>
+      <div class="userflow-step">
+        <div class="step-num">Step 03</div>
+        <div class="step-label">Assign</div>
+        <div class="step-sub">One confirmation click</div>
+      </div>
+      <div class="userflow-step auto">
+        <div class="auto-badge">Automated</div>
+        <div class="step-label">Tracking Live</div>
+        <div class="step-sub">Reflected everywhere, instantly</div>
+      </div>
+    </div>
+    <p class="flow-note">Before: manual spreadsheet updates per student, per course. After: one action, applied to everyone at once.</p>
+  </div>
+
+  <div class="cols2 reveal">
+    <div class="flow-section" style="margin-bottom:0">
+      <div class="flow-eyebrow"><span>Flow 03</span> · Student daily learning (Vanessa)</div>
+      <div class="userflow">
+        <div class="userflow-step">
+          <div class="step-num">Step 01</div>
+          <div class="step-label">Login</div>
+          <div class="step-sub">Student portal</div>
+        </div>
+        <div class="userflow-step">
+          <div class="step-num">Step 02</div>
+          <div class="step-label">Continue Lesson</div>
+          <div class="step-sub">Picked up automatically</div>
+        </div>
+        <div class="userflow-step">
+          <div class="step-num">Step 03</div>
+          <div class="step-label">Complete</div>
+          <div class="step-sub">Feedback shown immediately</div>
+        </div>
+        <div class="userflow-step auto">
+          <div class="auto-badge">Automated</div>
+          <div class="step-label">Progress Saved</div>
+          <div class="step-sub">Streak updated, teacher view synced</div>
+        </div>
+      </div>
+      <p class="flow-note">No searching. No guessing. The only decision is to begin.</p>
+    </div>
+    <div class="flow-section" style="margin-bottom:0">
+      <div class="flow-eyebrow"><span>Flow 04</span> · Teacher reviews performance (Jamile)</div>
+      <div class="userflow">
+        <div class="userflow-step">
+          <div class="step-num">Step 01</div>
+          <div class="step-label">Open Dashboard</div>
+          <div class="step-sub">Full class at a glance</div>
+        </div>
+        <div class="userflow-step">
+          <div class="step-num">Step 02</div>
+          <div class="step-label">Read Heatmap</div>
+          <div class="step-sub">Activity by student, by day</div>
+        </div>
+        <div class="userflow-step">
+          <div class="step-num">Step 03</div>
+          <div class="step-label">Drill Down</div>
+          <div class="step-sub">Individual student detail</div>
+        </div>
+        <div class="userflow-step auto">
+          <div class="auto-badge">Automated</div>
+          <div class="step-label">At-Risk Flagged</div>
+          <div class="step-sub">Surfaces without manual checking</div>
+        </div>
+      </div>
+      <p class="flow-note">Replaced spreadsheet reconciliation across 3 separate tools.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 06 DESIGN -->
+<section class="s s-sand">
+  <div class="s-label">06 / Design Iterations + Analytics</div>
+  <h2 class="s-title reveal">Three versions before both sides felt obvious.</h2>
+  <div class="cols2w reveal">
+    <div>
+      <div class="iter">
+        <div class="iter-head"><span class="ver">V1</span><span class="iter-title">Single unified dashboard</span></div>
+        <div class="iter-body"><p>One interface, content filtered by role.</p><p class="verdict vf">Problem: Cognitive overload for both. Each side constantly saw the wrong structure.</p></div>
+      </div>
+      <div class="iter">
+        <div class="iter-head"><span class="ver v2">V2</span><span class="iter-title">Role dashboards, shared layout</span></div>
+        <div class="iter-body"><p>Different widgets, same navigation system.</p><p class="verdict vp">Problem: Teachers and students navigate differently. The shared sidebar confused both.</p></div>
+      </div>
+      <div class="iter">
+        <div class="iter-head"><span class="ver v3">V3</span><span class="iter-title">Separate IA, shared design system</span></div>
+        <div class="iter-body"><p>Completely separate portals built on the same visual language.</p><p class="verdict vg">Result: Both sides felt obvious from the first click.</p></div>
+      </div>
+    </div>
+    <div>
+      <div class="hm-mock">
+        <div class="hm-mock-top">Completion Heatmap · Week of Oct 10</div>
+        <div style="padding:14px">
+          <div class="hm-grid">
+            <div></div>
+            <div class="hm-day">M</div><div class="hm-day">T</div><div class="hm-day">W</div><div class="hm-day">T</div><div class="hm-day">F</div><div class="hm-day">S</div><div class="hm-day">S</div>
+            <div class="hm-name">Vanessa</div>
+            <div class="hm-cell h4"></div><div class="hm-cell h3"></div><div class="hm-cell h4"></div><div class="hm-cell h2"></div><div class="hm-cell h4"></div><div class="hm-cell h1"></div><div class="hm-cell h0"></div>
+            <div class="hm-name">Maria E.</div>
+            <div class="hm-cell h2"></div><div class="hm-cell h0"></div><div class="hm-cell h1"></div><div class="hm-cell h0"></div><div class="hm-cell h1"></div><div class="hm-cell h0"></div><div class="hm-cell h0"></div>
+            <div class="hm-name">Mariana</div>
+            <div class="hm-cell h4"></div><div class="hm-cell h4"></div><div class="hm-cell h3"></div><div class="hm-cell h4"></div><div class="hm-cell h4"></div><div class="hm-cell h3"></div><div class="hm-cell h2"></div>
+            <div class="hm-name">Carlos</div>
+            <div class="hm-cell h1"></div><div class="hm-cell h0"></div><div class="hm-cell h0"></div><div class="hm-cell h0"></div><div class="hm-cell h0"></div><div class="hm-cell h0"></div><div class="hm-cell h0"></div>
+            <div class="hm-name">Lucia</div>
+            <div class="hm-cell h3"></div><div class="hm-cell h4"></div><div class="hm-cell h4"></div><div class="hm-cell h3"></div><div class="hm-cell h3"></div><div class="hm-cell h2"></div><div class="hm-cell h1"></div>
+          </div>
+          <div class="hm-legend">
+            <div class="hm-lg h0"></div>None
+            <div class="hm-lg h1" style="margin-left:5px"></div>Low
+            <div class="hm-lg h3" style="margin-left:5px"></div>High
+            <div class="hm-lg h4" style="margin-left:5px"></div>Full
+          </div>
+        </div>
+      </div>
+      <p style="font-size:0.8rem;color:var(--mid);line-height:1.5;margin-top:10px">Replaced manual spreadsheet reconciliation. At-risk students (Carlos) surface without any teacher input required.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 07 ENGINEERING -->
+<section class="s">
+  <div class="s-label">07 / Engineering Shaped by Research</div>
+  <h2 class="s-title reveal">What users said changed how I built the backend.</h2>
+  <div class="dtable reveal">
+    <div class="drow">
+      <div class="dcell"><div class="dc-lab dc-ch">Research finding</div><p class="dc-text">Jamile didn&rsquo;t know students were falling behind until they messaged her. Detection had to be automatic and immediate.</p></div>
+      <div class="dcell"><div class="dc-lab dc-re">Engineering response</div><p class="dc-text"><strong>Real-time progress persistence layer</strong> recalculates at-risk thresholds on every lesson interaction. No batch jobs, no manual checks.</p></div>
+    </div>
+    <div class="drow">
+      <div class="dcell"><div class="dc-lab dc-ch">Research finding</div><p class="dc-text">Role confusion in V1/V2; UI-layer filtering alone wasn&rsquo;t enough. Teachers sometimes accessed student data.</p></div>
+      <div class="dcell"><div class="dc-lab dc-re">Engineering response</div><p class="dc-text"><strong>RBAC at the database layer</strong>. Queries scoped by role before data reaches the client. Separation is structural.</p></div>
+    </div>
+    <div class="drow">
+      <div class="dcell"><div class="dc-lab dc-ch">Research finding</div><p class="dc-text">Vanessa reopened the same lesson twice. Completion state had to be unambiguous and durable across sessions.</p></div>
+      <div class="dcell"><div class="dc-lab dc-re">Engineering response</div><p class="dc-text"><strong>Explicit completion state</strong> stored per-lesson, per-user at DB level. &ldquo;Continue where you left off&rdquo; is computed, never inferred from timestamps.</p></div>
+    </div>
+  </div>
+  <div class="tools reveal"><span class="tool">React</span><span class="tool">Node.js</span><span class="tool">PostgreSQL</span><span class="tool">Recharts</span><span class="tool">RBAC</span><span class="tool">Token Auth</span></div>
+</section>
+
+<!-- 08 OUTCOMES -->
+<section class="s s-dark" id="outcomes">
+  <div class="s-label" style="color:var(--accent)">08 / Outcomes</div>
+  <h2 class="s-title reveal" style="color:var(--white)">What changed after one month.</h2>
+  <div class="outcome-band reveal">
+    <div class="oi"><div class="on-num">80<span>%</span></div><div class="on-lab">Reduction in weekly administrative work for Jamile</div></div>
+    <div class="oi"><div class="on-num">100<span>+</span></div><div class="on-lab">Active learners across both portals</div></div>
+    <div class="oi"><div class="on-num">25<span>&rarr;5</span></div><div class="on-lab">Onboarding steps: 45 min down to under 3</div></div>
+  </div>
+  <div class="cols2 reveal" style="margin-top:44px">
+    <div>
+      <blockquote class="pq dark">&ldquo;I finally feel like I&rsquo;m teaching again instead of managing.&rdquo;<cite><span>Jamile</span> / Founder, three months post-launch</cite></blockquote>
+      <blockquote class="pq dark" style="margin-top:0">&ldquo;It feels simple. I just log in and start.&rdquo;<cite><span>Vanessa</span> / Student</cite></blockquote>
+    </div>
+    <div>
+      <div class="card" style="background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.08)">
+        <div class="card-label" style="color:var(--accent)">15+ features shipped</div>
+        <div class="finding"><div class="fn">01</div><div class="ft" style="color:rgba(250,248,244,0.7)">Automated token-validated email onboarding</div></div>
+        <div class="finding"><div class="fn">02</div><div class="ft" style="color:rgba(250,248,244,0.7)">Quiz engine + vocabulary games + conversation simulations</div></div>
+        <div class="finding"><div class="fn">03</div><div class="ft" style="color:rgba(250,248,244,0.7)">Recharts analytics dashboard with completion heatmap</div></div>
+        <div class="finding"><div class="fn">04</div><div class="ft" style="color:rgba(250,248,244,0.7)">Course templating + multi-student assignment</div></div>
+        <div class="finding"><div class="fn">05</div><div class="ft" style="color:rgba(250,248,244,0.7)">Progress persistence + streak tracking</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 REFLECTION -->
+<section class="s">
+  <div class="s-label">09 / What I Learned</div>
+  <div class="principle reveal">
+    <div class="pr-num">01</div>
+    <div class="pr-body"><h3>The messiest systems are the hardest to question.</h3><p>Jamile had been running on Drive and WhatsApp long enough that it felt normal. It took mapping it step by step, together, for the cost to become visible.</p></div>
+  </div>
+  <div class="principle reveal">
+    <div class="pr-num">02</div>
+    <div class="pr-body"><h3>Role-based UX starts at architecture, not UI.</h3><p>Content filtering doesn&rsquo;t fix misaligned IA. V1 and V2 proved it. V3 fixed it at the foundation.</p></div>
+  </div>
+  <div class="principle reveal">
+    <div class="pr-num">03</div>
+    <div class="pr-body"><h3>Momentum is a product feature.</h3><p>Mariana didn&rsquo;t  wanted to feel improvement. Streak, history, and skill labels were deliberate design decisions.</p></div>
+  </div>
+  <div class="principle reveal">
+    <div class="pr-num">04</div>
+    <div class="pr-body"><h3>The most powerful decisions are eliminations.</h3><p>If a feature didn&rsquo;t answer &ldquo;who needs attention?&rdquo; or &ldquo;what do I do today?&rdquo; it was cut.</p></div>
+  </div>
+  <p class="reveal" style="font-family:var(--serif);font-style:italic;font-size:clamp(1.3rem,2.4vw,1.9rem);line-height:1.6;max-width:720px;margin:44px 0 0">Teachers should teach. Students should learn. The system should handle the rest.</p>
+  <div style="margin-top:36px" class="reveal"><a href="index.html" style="font-family:var(--syne);font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--black);text-decoration:none;border-bottom:1px solid var(--black);padding-bottom:3px;transition:color 0.2s,border-color 0.2s" onmouseover="this.style.color='#c8541c';this.style.borderColor='#c8541c'" onmouseout="this.style.color='#0d0d0b';this.style.borderColor='#0d0d0b'">Back to all work</a></div>
+</section>
+
+<footer style="padding:26px 52px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border);flex-wrap:wrap;gap:16px">
+  <div style="font-family:var(--syne);font-weight:700;font-size:0.8rem">Genna <span style="color:var(--accent)">Gonzaga</span></div>
+  <div style="display:flex;align-items:center;gap:24px">
+    <a href="index.html" style="font-family:var(--syne);font-size:0.68rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--black);text-decoration:none;border-bottom:1px solid var(--black);padding-bottom:2px">Back to all work</a>
+    <span style="font-family:var(--syne);font-size:0.62rem;letter-spacing:0.08em;color:var(--mid);text-transform:uppercase">Fluency On Case Study / 2025</span>
+  </div>
+</footer>
+
+<script>
+document.body.classList.add('page-ready');
+document.addEventListener('click',function(e){
+  var a=e.target.closest('a[href]');
+  if(!a||a.target==='_blank'||a.href.startsWith('mailto:')||a.href.startsWith('#'))return;
+  var href=a.getAttribute('href');
+  if(!href||href==='#'||!/\.html$|^index\.html$/i.test(href))return;
+  if(a.origin!==location.origin&&!href.startsWith('/')&&!href.startsWith('./')&&!href.match(/^[a-z0-9-]+\.html$/))return;
+  e.preventDefault();
+  if(/index\.html$/i.test(href)||href==='index.html')sessionStorage.setItem('skipLoader','1');
+  document.body.classList.add('page-leaving');
+  setTimeout(function(){location.href=a.href;},150);
+},true);
+(function(){document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('visible')})})();
+var dot=document.getElementById('cdot'),ring=document.getElementById('cring'),mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
+(function tick(){rx+=(mx-rx)*0.11;ry+=(my-ry)*0.11;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(tick);})();
+document.querySelectorAll('a,button').forEach(function(el){
+  el.addEventListener('mouseenter',function(){dot.style.width='12px';dot.style.height='12px';ring.style.width='54px';ring.style.height='54px';});
+  el.addEventListener('mouseleave',function(){dot.style.width='7px';dot.style.height='7px';ring.style.width='38px';ring.style.height='38px';});
+});
+var io=new IntersectionObserver(function(entries){entries.forEach(function(e,i){if(e.isIntersecting){setTimeout(function(){e.target.classList.add('visible')},i*100);io.unobserve(e.target);}});},{threshold:0.07});
+document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+function revealInView(){document.querySelectorAll('.reveal').forEach(function(el){var r=el.getBoundingClientRect();if(r.top<window.innerHeight+100)el.classList.add('visible')})}
+function revealAll(){document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('visible')})}
+window.addEventListener('DOMContentLoaded',revealAll);
+window.addEventListener('load',function(){revealAll();setTimeout(revealInView,50);setTimeout(revealAll,200)});
+window.addEventListener('scroll',function(){requestAnimationFrame(revealInView)});
+var sections=['problem','research','strategy','flows','outcomes'];
+function updateActiveNav(){var scrollY=window.scrollY;var vh=window.innerHeight*0.35;var active=null;sections.forEach(function(id){var el=document.getElementById(id);if(el&&el.offsetTop<=scrollY+vh)active=id});document.querySelectorAll('.case-study-nav a').forEach(function(a){a.classList.toggle('active',a.getAttribute('href')==='#'+active)});var navWrap=document.querySelector('.case-study-nav-wrap');var navHome=document.querySelector('.case-study-home');var overDark=active==='problem'||active==='outcomes';if(navWrap)navWrap.classList.toggle('nav-over-dark',overDark);if(navHome)navHome.classList.toggle('nav-over-dark',overDark)}
+window.addEventListener('scroll',function(){requestAnimationFrame(updateActiveNav)});
+window.addEventListener('load',updateActiveNav);
+var hero=document.querySelector('.hero');
+var navWrap=document.querySelector('.case-study-nav-wrap');
+function updateNavVisibility(){var heroBottom=hero?hero.offsetTop+hero.offsetHeight:400;var homeEl=document.querySelector('.case-study-home');if(window.scrollY>heroBottom-80){navWrap&&navWrap.classList.add('nav-visible');document.body.classList.add('has-bottom-nav');if(homeEl){homeEl.style.opacity='0';homeEl.style.pointerEvents='none'}}else{navWrap&&navWrap.classList.remove('nav-visible');document.body.classList.remove('has-bottom-nav');if(homeEl){homeEl.style.opacity='1';homeEl.style.pointerEvents='auto'}}}
+window.addEventListener('scroll',function(){requestAnimationFrame(updateNavVisibility)});
+updateNavVisibility();
+</script>
+</body>
+</html>

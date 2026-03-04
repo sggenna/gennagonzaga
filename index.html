@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Genna Gonzaga</title>
+<link rel="icon" href="assets/favicon.png" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;overflow-x:hidden}
+:root{
+  --black:#0d0d0b;--white:#faf8f4;--sand:#ede8dc;
+  --border:#ddd9d0;--mid:#888880;--accent:#c8541c;
+  --syne:'Syne',sans-serif;--body:'DM Sans',sans-serif;--serif:'Instrument Serif',serif;
+}
+body{background:var(--white);color:var(--black);font-family:var(--body);font-size:17px;line-height:1.75;overflow-x:hidden;cursor:none;opacity:0;transition:opacity 0.35s ease}
+body.page-ready{opacity:1}
+body.page-leaving{opacity:0}
+
+/* LOADER */
+#loader{
+  position:fixed;inset:0;z-index:1000;background:var(--white);
+  display:flex;align-items:center;justify-content:center;flex-direction:column;
+}
+#loader.gone{animation:loaderFadeOut 0.8s ease forwards;pointer-events:none}
+@keyframes loaderFadeOut{to{opacity:0;visibility:hidden}}
+.ld-line{overflow:hidden;height:1.3em;text-align:center}
+.ld-text{
+  display:inline-block;font-family:var(--syne);font-size:0.72rem;font-weight:600;
+  letter-spacing:0.28em;text-transform:uppercase;
+  transform:translateY(110%);animation:ldUp 0.6s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+.ld1{animation-delay:0.1s;color:rgba(255,255,255,0.2)}
+.ld2{animation-delay:0.3s;color:rgba(255,255,255,0.55)}
+.ld3{animation-delay:0.5s;color:rgba(255,255,255,0.12)}
+.ld-name{
+  font-family:var(--serif);font-style:italic;font-size:clamp(2.6rem,8vw,6rem);
+  color:var(--white);letter-spacing:-0.03em;line-height:1;
+  opacity:0;transform:translateY(14px);
+  animation:ldFade 0.9s cubic-bezier(0.16,1,0.3,1) 0.85s forwards;
+  margin:20px 0 10px;
+}
+.ld-sub{
+  font-family:var(--syne);font-size:0.65rem;font-weight:500;letter-spacing:0.2em;
+  text-transform:uppercase;color:rgba(255,255,255,0.28);
+  opacity:0;animation:ldFade 0.6s ease 1.2s forwards;
+}
+.ld-bugs{display:flex;gap:20px;margin-top:36px;opacity:0;animation:ldFade 0.5s ease 1.2s forwards}
+.ld-bug{width:20px;height:20px;animation:bugBob 1.3s ease-in-out infinite}
+.ld-bug:nth-child(1){animation-delay:0.0s}
+.ld-bug:nth-child(2){animation-delay:0.2s}
+.ld-bug:nth-child(3){animation-delay:0.4s}
+.ld-bug:nth-child(4){animation-delay:0.6s}
+.ld-bug:nth-child(5){animation-delay:0.8s}
+@keyframes bugBob{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-7px) rotate(5deg)}}
+@keyframes ldUp{to{transform:translateY(0)}}
+@keyframes ldFade{to{opacity:1;transform:translateY(0)}}
+
+/* CURSOR */
+.cdot{position:fixed;width:7px;height:7px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:multiply;transition:width 0.2s,height 0.2s;left:0;top:0}
+.cring{position:fixed;width:38px;height:38px;border:1px solid rgba(200,84,28,0.35);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);left:0;top:0}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:22px 52px}
+.nav-logo{font-family:var(--syne);font-weight:800;font-size:0.85rem;letter-spacing:0.04em;text-transform:uppercase;color:var(--black);text-decoration:none;opacity:0;animation:up 0.5s ease 2.1s forwards}
+.nav-logo em{color:var(--accent);font-style:normal}
+.nav-links{display:flex;gap:36px;opacity:0;animation:up 0.5s ease 2.2s forwards}
+.nav-links a{font-family:var(--syne);font-size:0.7rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--black);text-decoration:none;opacity:0.45;transition:opacity 0.2s}
+.nav-links a:hover{opacity:1}
+
+/* HERO */
+.hero{min-height:100vh;padding:0 52px;display:grid;grid-template-rows:1fr auto;position:relative;overflow:hidden;background:var(--white)}
+.hero-ghost{position:absolute;top:50%;left:44px;transform:translateY(-55%);font-family:var(--serif);font-style:italic;font-size:clamp(18vw,24vw,340px);color:transparent;-webkit-text-stroke:1px rgba(13,13,11,0.045);line-height:0.82;pointer-events:none;user-select:none;white-space:nowrap;letter-spacing:-0.04em}
+.hero-inner{display:flex;flex-direction:column;justify-content:center;padding-top:110px;position:relative;z-index:1;max-width:860px}
+.hero-tag{font-family:var(--syne);font-size:0.68rem;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);margin-bottom:24px;display:flex;align-items:center;gap:14px;opacity:0;animation:up 0.5s ease 1.9s forwards}
+.hero-tag::before{content:'';width:28px;height:1px;background:var(--accent)}
+.hero-name{font-family:var(--serif);font-size:clamp(4rem,9.5vw,9.5rem);font-style:italic;line-height:0.9;letter-spacing:-0.03em;margin-bottom:36px;opacity:0;animation:up 0.85s cubic-bezier(0.16,1,0.3,1) 2.05s forwards}
+.hero-name .first{display:block}
+.hero-name .last{display:block;font-style:normal;font-family:var(--syne);font-weight:800;font-size:0.47em;letter-spacing:-0.01em;line-height:1.6;color:var(--black)}
+.hero-tagline{font-size:clamp(0.95rem,1.6vw,1.15rem);line-height:1.75;color:var(--mid);max-width:480px;opacity:0;animation:up 0.6s ease 2.35s forwards}
+.hero-tagline strong{color:var(--black);font-weight:500}
+.hero-foot{display:flex;align-items:center;justify-content:space-between;padding:36px 0;position:relative;z-index:1;border-top:1px solid var(--border);opacity:0;animation:up 0.5s ease 2.55s forwards}
+.hero-scroll{display:flex;align-items:center;gap:16px;font-family:var(--syne);font-size:0.64rem;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--mid)}
+.scroll-line{width:40px;height:1px;background:var(--border);position:relative;overflow:hidden}
+.scroll-line::after{content:'';position:absolute;top:0;bottom:0;left:-100%;width:100%;background:var(--accent);animation:scan 2.2s ease 3s infinite}
+@keyframes scan{0%{left:-100%}60%,100%{left:100%}}
+.avail{display:flex;align-items:center;gap:10px;font-family:var(--syne);font-size:0.64rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--mid)}
+.avail-dot{width:7px;height:7px;border-radius:50%;background:#4caf50;animation:pulse 2.4s ease infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.8)}}
+@keyframes up{to{opacity:1;transform:translateY(0)}}
+
+/* MARQUEE */
+.marquee-wrap{border-top:1px solid var(--border);border-bottom:1px solid var(--border);overflow:hidden;padding:15px 0;white-space:nowrap}
+.marquee-track{display:inline-flex;animation:marquee 24s linear infinite}
+.marquee-item{display:inline-flex;align-items:center;gap:24px;padding:0 24px;font-family:var(--syne);font-size:0.68rem;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--mid)}
+.m-dot{width:3px;height:3px;border-radius:50%;background:var(--accent);flex-shrink:0}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* WORK */
+.work-section{padding:120px 52px}
+.sec-header{display:flex;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--border);padding-bottom:18px;margin-bottom:56px}
+.sec-label{font-family:var(--syne);font-size:0.68rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent)}
+.sec-meta{font-family:var(--serif);font-style:italic;font-size:0.9rem;color:var(--mid)}
+.cards-grid{display:flex;flex-direction:column;gap:3px}
+
+/* CARDS */
+.card{display:grid;grid-template-columns:72px 1fr 200px;border:1px solid var(--border);border-radius:4px;overflow:hidden;text-decoration:none;color:inherit;background:var(--white);position:relative;transition:background 0.3s ease}
+.card:hover{background:var(--sand)}
+.card:hover .card-arr{transform:translate(3px,-3px)}
+.card:hover .card-vis-inner{transform:scale(1.05)}
+.card-num{padding:44px 0;border-right:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:var(--syne);font-size:0.64rem;font-weight:700;letter-spacing:0.1em;color:var(--mid)}
+.card-body{padding:40px 48px}
+.card-tags{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.card-tag{font-family:var(--syne);font-size:0.58rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;padding:4px 10px;border-radius:2px;background:var(--sand);color:var(--mid);border:1px solid var(--border)}
+.card-tag.hi{background:rgba(200,84,28,0.07);color:var(--accent);border-color:rgba(200,84,28,0.18)}
+.card-title{font-family:var(--serif);font-style:italic;font-size:clamp(1.5rem,2.6vw,2.5rem);line-height:1.1;letter-spacing:-0.02em;margin-bottom:12px}
+.card-title b{font-style:normal;font-family:var(--syne);font-weight:800;font-size:0.46em;display:block;letter-spacing:-0.01em;margin-bottom:4px;color:var(--black)}
+.card-desc{font-size:0.88rem;color:var(--mid);line-height:1.65;max-width:500px}
+.card-vis{border-left:1px solid var(--border);overflow:hidden;background:var(--sand);display:flex;align-items:center;justify-content:center}
+.card-vis-inner{width:100%;height:100%;transition:transform 0.5s ease;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:20px;gap:7px}
+.card-icon{width:64px;height:64px;color:var(--border);transition:color 0.3s ease}
+.card:hover .card-icon{color:var(--mid)}
+.card-arr{position:absolute;bottom:22px;right:24px;font-size:1rem;color:var(--mid);transition:transform 0.3s ease}
+/* dicio thumb */
+.dicio-thumb{background:var(--sand);width:100%;height:100%;padding:20px;display:flex;flex-direction:column;gap:8px}
+.dt-search{background:var(--white);border:1px solid var(--border);border-radius:4px;padding:8px 12px;font-family:var(--serif);font-style:italic;color:var(--black);font-size:0.75rem;display:flex;align-items:center;gap:8px}
+.dt-search::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0}
+.dt-result{background:var(--white);border-radius:3px;padding:7px 10px;display:flex;align-items:center;gap:8px}
+.dt-result.b1{border-left:2px solid #2563eb}
+.dt-result.b2{border-left:2px solid #16a34a}
+.dt-result.b3{border-left:2px solid #9333ea}
+.dt-src{font-family:var(--syne);font-size:0.42rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;width:42px;flex-shrink:0}
+.dt-result.b1 .dt-src{color:#60a5fa}
+.dt-result.b2 .dt-src{color:#4ade80}
+.dt-result.b3 .dt-src{color:#c4b5fd}
+.dt-lines{display:flex;flex-direction:column;gap:3px;flex:1}
+.dt-rw{height:4px;background:rgba(0,0,0,0.15);border-radius:2px;width:70%}
+.dt-rs{height:3px;background:rgba(0,0,0,0.07);border-radius:2px;width:44%}
+/* placeholder */
+.ph-thumb{width:100%;height:100%;background:var(--sand);display:flex;align-items:center;justify-content:center}
+.ph-inner{width:52px;height:52px;border:1.5px dashed var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--syne);font-size:1.1rem;color:var(--border)}
+.card.wip{opacity:0.45;pointer-events:none}
+
+/* ABOUT */
+.about-section{padding:100px 52px;background:var(--sand);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.about-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:72px;align-items:center;max-width:1100px;margin:0 auto}
+.about-left{display:flex;flex-direction:column;gap:0}
+.about-label{font-family:var(--syne);font-size:0.68rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent);margin-bottom:24px}
+.about-quote{font-family:var(--serif);font-style:italic;font-size:clamp(1.35rem,2.2vw,1.75rem);line-height:1.65;color:var(--black);max-width:480px}
+.about-quote em{font-style:normal;color:var(--accent)}
+.about-right{display:flex;flex-direction:row;flex-wrap:wrap;align-items:flex-start;gap:32px 48px}
+.about-photo-wrap{flex-shrink:0}
+.about-photo{width:100%;max-width:220px;aspect-ratio:1;object-fit:cover;object-position:center 30%;border-radius:8px;box-shadow:0 4px 24px rgba(0,0,0,0.06);display:block}
+.about-details{display:flex;flex-direction:column;gap:24px;flex:1;min-width:240px}
+.about-item{border-left:2px solid var(--accent);padding-left:18px;padding-top:2px}
+.about-item-label{font-family:var(--syne);font-size:0.6rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.about-item-val{font-size:0.9rem;line-height:1.55;color:var(--black)}
+
+/* CONTACT */
+.contact-section{padding:120px 52px 100px;border-bottom:1px solid var(--border)}
+.contact-label{font-family:var(--syne);font-size:0.68rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent);margin-bottom:28px}
+.contact-heading{font-family:var(--serif);font-style:italic;font-size:clamp(2.8rem,7vw,7.5rem);line-height:0.92;letter-spacing:-0.03em;margin-bottom:48px;max-width:780px}
+.contact-heading strong{font-style:normal;font-family:var(--syne);font-weight:800;font-size:0.45em;display:block;letter-spacing:-0.01em;margin-bottom:8px}
+.contact-link{font-family:var(--syne);font-weight:700;font-size:clamp(0.9rem,1.8vw,1.3rem);letter-spacing:0.02em;color:var(--black);text-decoration:none;border-bottom:1px solid var(--black);padding-bottom:3px;transition:color 0.2s,border-color 0.2s}
+.contact-link:hover{color:var(--accent);border-color:var(--accent)}
+
+/* FOOTER */
+footer{padding:28px 52px;display:flex;align-items:center;justify-content:space-between}
+.footer-name{font-family:var(--syne);font-weight:700;font-size:0.82rem}
+.footer-name em{color:var(--accent);font-style:normal}
+.footer-right{font-family:var(--syne);font-size:0.68rem;letter-spacing:0.08em;color:var(--mid);text-transform:uppercase}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(-28px);transition:opacity 0.7s cubic-bezier(0.22,1,0.36,1),transform 0.7s cubic-bezier(0.22,1,0.36,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+img{max-width:100%;height:auto;display:block}
+
+@media(max-width:900px){
+  nav{padding:18px 24px}
+  .nav-links{gap:24px}
+  .hero,.work-section,.contact-section{padding-left:24px;padding-right:24px}
+  .hero-inner{padding-top:90px}
+  .hero-foot{flex-direction:column;align-items:flex-start;gap:24px}
+  .work-section{padding:80px 24px}
+  .contact-section{padding:80px 24px 72px}
+  .about-section{padding:72px 24px}
+  footer{padding:24px;flex-direction:column;align-items:center;gap:12px;text-align:center}
+  .about-grid{grid-template-columns:1fr;gap:48px;align-items:start}
+  .about-right{flex-direction:column;gap:32px}
+  .about-photo{max-width:200px}
+  .card{grid-template-columns:48px 1fr}
+  .card-vis{display:none}
+  .card-body{padding:24px 20px}
+  .card-num{padding:24px 0;font-size:0.58rem}
+  .sec-header{flex-direction:column;align-items:flex-start;gap:8px}
+}
+@media(max-width:600px){
+  nav{padding:16px 20px}
+  .nav-links{gap:18px;font-size:0.62rem}
+  .hero,.work-section,.contact-section{padding-left:20px;padding-right:20px}
+  .hero-inner{padding-top:80px}
+  .hero-name{font-size:clamp(2.8rem,12vw,4rem)}
+  .work-section{padding:60px 20px}
+  .contact-section{padding:60px 20px 56px}
+  .contact-heading{font-size:clamp(2.2rem,10vw,3rem)}
+  .about-section{padding:56px 20px}
+  .card{grid-template-columns:40px 1fr}
+  .card-body{padding:20px 16px}
+  .card-num{padding:20px 0;font-size:0.54rem}
+  .card-title{font-size:clamp(1.25rem,5vw,1.5rem)}
+  .marquee-item{font-size:0.6rem;padding:0 16px}
+}
+@media(hover:none) and (pointer:coarse){
+  body{cursor:auto}
+  .cdot,.cring{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="cdot" id="cdot"></div>
+<div class="cring" id="cring"></div>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="ld-bugs"><svg class="ld-bug" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="14" cy="17" rx="9" ry="7.5" fill="#c8541c"/><line x1="14" y1="9.5" x2="14" y2="24.5" stroke="#1a0800" stroke-width="1.2"/><circle cx="10" cy="15.5" r="2" fill="#1a0800" opacity="0.75"/><circle cx="18" cy="15.5" r="2" fill="#1a0800" opacity="0.75"/><circle cx="10.5" cy="21" r="1.4" fill="#1a0800" opacity="0.5"/><circle cx="17.5" cy="21" r="1.4" fill="#1a0800" opacity="0.5"/><ellipse cx="14" cy="10.5" rx="5" ry="4" fill="#1a0800"/><circle cx="11.8" cy="9.2" r="1.3" fill="white" opacity="0.8"/><circle cx="16.2" cy="9.2" r="1.3" fill="white" opacity="0.8"/><line x1="12.2" y1="6.8" x2="10" y2="4" stroke="#1a0800" stroke-width="0.9" stroke-linecap="round"/><line x1="15.8" y1="6.8" x2="18" y2="4" stroke="#1a0800" stroke-width="0.9" stroke-linecap="round"/><circle cx="10" cy="3.8" r="0.8" fill="#1a0800"/><circle cx="18" cy="3.8" r="0.8" fill="#1a0800"/></svg><svg class="ld-bug" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="14" cy="17" rx="9" ry="7.5" fill="#c8541c"/><line x1="14" y1="9.5" x2="14" y2="24.5" stroke="#1a0800" stroke-width="1.2"/><circle cx="10" cy="15.5" r="2" fill="#1a0800" opacity="0.75"/><circle cx="18" cy="15.5" r="2" fill="#1a0800" opacity="0.75"/><circle cx="10.5" cy="21" r="1.4" fill="#1a0800" opacity="0.5"/><circle cx="17.5" cy="21" r="1.4" fill="#1a0800" opacity="0.5"/><ellipse cx="14" cy="10.5" rx="5" ry="4" fill="#1a0800"/><circle cx="11.8" cy="9.2" r="1.3" fill="white" opacity="0.8"/><circle cx="16.2" cy="9.2" r="1.3" fill="white" opacity="0.8"/><line x1="12.2" y1="6.8" x2="10" y2="4" stroke="#1a0800" stroke-width="0.9" stroke-linecap="round"/><line x1="15.8" y1="6.8" x2="18" y2="4" stroke="#1a0800" stroke-width="0.9" stroke-linecap="round"/><circle cx="10" cy="3.8" r="0.8" fill="#1a0800"/><circle cx="18" cy="3.8" r="0.8" fill="#1a0800"/></svg><svg class="ld-bug" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="14" cy="17" rx="9" ry="7.5" fill="#c8541c"/><line x1="14" y1="9.5" x2="14" y2="24.5" stroke="#1a0800" stroke-width="1.2"/><circle cx="10" cy="15.5" r="2" fill="#1a0800" opacity="0.75"/><circle cx="18" cy="15.5" r="2" fill="#1a0800" opacity="0.75"/><circle cx="10.5" cy="21" r="1.4" fill="#1a0800" opacity="0.5"/><circle cx="17.5" cy="21" r="1.4" fill="#1a0800" opacity="0.5"/><ellipse cx="14" cy="10.5" rx="5" ry="4" fill="#1a0800"/><circle cx="11.8" cy="9.2" r="1.3" fill="white" opacity="0.8"/><circle cx="16.2" cy="9.2" r="1.3" fill="white" opacity="0.8"/><line x1="12.2" y1="6.8" x2="10" y2="4" stroke="#1a0800" stroke-width="0.9" stroke-linecap="round"/><line x1="15.8" y1="6.8" x2="18" y2="4" stroke="#1a0800" stroke-width="0.9" stroke-linecap="round"/><circle cx="10" cy="3.8" r="0.8" fill="#1a0800"/><circle cx="18" cy="3.8" r="0.8" fill="#1a0800"/></svg><svg class="ld-bug" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="14" cy="17" rx="9" ry="7.5" fill="#c8541c"/><line x1="14" y1="9.5" x2="14" y2="24.5" stroke="#1a0800" stroke-width="1.2"/><circle cx="10" cy="15.5" r="2" fill="#1a0800" opacity="0.75"/><circle cx="18" cy="15.5" r="2" fill="#1a0800" opacity="0.75"/><circle cx="10.5" cy="21" r="1.4" fill="#1a0800" opacity="0.5"/><circle cx="17.5" cy="21" r="1.4" fill="#1a0800" opacity="0.5"/><ellipse cx="14" cy="10.5" rx="5" ry="4" fill="#1a0800"/><circle cx="11.8" cy="9.2" r="1.3" fill="white" opacity="0.8"/><circle cx="16.2" cy="9.2" r="1.3" fill="white" opacity="0.8"/><line x1="12.2" y1="6.8" x2="10" y2="4" stroke="#1a0800" stroke-width="0.9" stroke-linecap="round"/><line x1="15.8" y1="6.8" x2="18" y2="4" stroke="#1a0800" stroke-width="0.9" stroke-linecap="round"/><circle cx="10" cy="3.8" r="0.8" fill="#1a0800"/><circle cx="18" cy="3.8" r="0.8" fill="#1a0800"/></svg><svg class="ld-bug" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="14" cy="17" rx="9" ry="7.5" fill="#c8541c"/><line x1="14" y1="9.5" x2="14" y2="24.5" stroke="#1a0800" stroke-width="1.2"/><circle cx="10" cy="15.5" r="2" fill="#1a0800" opacity="0.75"/><circle cx="18" cy="15.5" r="2" fill="#1a0800" opacity="0.75"/><circle cx="10.5" cy="21" r="1.4" fill="#1a0800" opacity="0.5"/><circle cx="17.5" cy="21" r="1.4" fill="#1a0800" opacity="0.5"/><ellipse cx="14" cy="10.5" rx="5" ry="4" fill="#1a0800"/><circle cx="11.8" cy="9.2" r="1.3" fill="white" opacity="0.8"/><circle cx="16.2" cy="9.2" r="1.3" fill="white" opacity="0.8"/><line x1="12.2" y1="6.8" x2="10" y2="4" stroke="#1a0800" stroke-width="0.9" stroke-linecap="round"/><line x1="15.8" y1="6.8" x2="18" y2="4" stroke="#1a0800" stroke-width="0.9" stroke-linecap="round"/><circle cx="10" cy="3.8" r="0.8" fill="#1a0800"/><circle cx="18" cy="3.8" r="0.8" fill="#1a0800"/></svg></div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Genna <em>Gonzaga</em></a>
+  <div class="nav-links">
+    <a href="#work">Work</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-ghost" aria-hidden="true">Genna</div>
+  <div class="hero-inner">
+    <div class="hero-tag">Product Design + UX Research</div>
+    <h1 class="hero-name">
+      <span class="first">Making space</span>
+      <span class="last">through design</span>
+    </h1>
+    <p class="hero-tagline"> CS + Visual Arts student, birria taco lover, and someone who thinks a lot about how structure shapes feeling.
+    </p>
+  </div>
+  <div class="hero-foot">
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      Scroll to work
+    </div>
+    <div class="avail">
+      <div class="avail-dot"></div>
+      Open to opportunities
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap" aria-hidden="true">
+  <div class="marquee-track">
+    <span class="marquee-item"><span class="m-dot"></span>User Research</span>
+    <span class="marquee-item"><span class="m-dot"></span>Figma</span>
+    <span class="marquee-item"><span class="m-dot"></span>Product Design</span>
+    <span class="marquee-item"><span class="m-dot"></span>React</span>
+    <span class="marquee-item"><span class="m-dot"></span>Visual Arts</span>
+    <span class="marquee-item"><span class="m-dot"></span>PostgreSQL</span>
+    <span class="marquee-item"><span class="m-dot"></span>Usability Testing</span>
+    <span class="marquee-item"><span class="m-dot"></span>Information Architecture</span>
+    <span class="marquee-item"><span class="m-dot"></span>Computer Science</span>
+    <span class="marquee-item"><span class="m-dot"></span>Affinity Mapping</span>
+    <span class="marquee-item"><span class="m-dot"></span>Columbia University</span>
+  
+    <span class="marquee-item"><span class="m-dot"></span>User Research</span>
+    <span class="marquee-item"><span class="m-dot"></span>Figma</span>
+    <span class="marquee-item"><span class="m-dot"></span>Product Design</span>
+    <span class="marquee-item"><span class="m-dot"></span>React</span>
+    <span class="marquee-item"><span class="m-dot"></span>Visual Arts</span>
+    <span class="marquee-item"><span class="m-dot"></span>PostgreSQL</span>
+    <span class="marquee-item"><span class="m-dot"></span>Usability Testing</span>
+    <span class="marquee-item"><span class="m-dot"></span>Information Architecture</span>
+    <span class="marquee-item"><span class="m-dot"></span>Computer Science</span>
+    <span class="marquee-item"><span class="m-dot"></span>Affinity Mapping</span>
+    <span class="marquee-item"><span class="m-dot"></span>Columbia University</span>
+
+  </div>
+</div>
+
+<!-- WORK -->
+<section class="work-section" id="work">
+  <div class="sec-header reveal">
+    <div class="sec-label">Selected Work</div>
+    <div class="sec-meta">3 projects</div>
+  </div>
+  <div class="cards-grid">
+
+    <a href="diciobase-case-study.html" class="card reveal">
+      <div class="card-num">01</div>
+      <div class="card-body">
+        <div class="card-tags">
+          <span class="card-tag hi">Live Project</span>
+          <span class="card-tag">UX Research</span>
+          <span class="card-tag">Product Design</span>
+          <span class="card-tag">Engineering</span>
+        </div>
+        <div class="card-title">
+          <b>Diciobase</b>
+          Five databases,<br>one search
+        </div>
+        <p class="card-desc">8 researcher interviews. 3 design iterations. A 40% query performance improvement. How listening changed everything about what we built.</p>
+      </div>
+      <div class="card-vis">
+        <div class="card-vis-inner dicio-thumb">
+          <div class="dt-search">saudade</div>
+          <div class="dt-result b1"><div class="dt-src">Houaiss</div><div class="dt-lines"><div class="dt-rw"></div><div class="dt-rs"></div></div></div>
+          <div class="dt-result b2"><div class="dt-src">Aurélio</div><div class="dt-lines"><div class="dt-rw" style="width:55%"></div><div class="dt-rs" style="width:35%"></div></div></div>
+          <div class="dt-result b3"><div class="dt-src">Michaelis</div><div class="dt-lines"><div class="dt-rw" style="width:80%"></div><div class="dt-rs" style="width:50%"></div></div></div>
+        </div>
+      </div>
+      <span class="card-arr">&#8599;</span>
+    </a>
+
+    <a href="platepal-case-study.html" class="card reveal">
+      <div class="card-num">02</div>
+      <div class="card-body">
+        <div class="card-tags">
+          <span class="card-tag hi">Columbia University</span>
+          <span class="card-tag">UX Research</span>
+          <span class="card-tag">Product Design</span>
+          <span class="card-tag">Engineering</span>
+        </div>
+        <div class="card-title">
+          <b>PlatePal</b>
+          Campus dining chaos,<br>made navigable
+        </div>
+        <p class="card-desc">83% of Columbia students rated existing dining tools 1 or 2 out of 5. Contextual inquiry, affinity mapping, and a smoke-and-mirrors prototype later.</p>
+      </div>
+      <div class="card-vis">
+        <div class="card-vis-inner" style="background:var(--sand);padding:20px;gap:9px;align-items:stretch">
+          <div style="font-family:var(--syne);font-size:0.5rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--mid)">Today&rsquo;s best match</div>
+          <div style="background:var(--white);border:1px solid var(--border);border-radius:4px;padding:9px 11px;border-left:2px solid #4CAF50">
+            <div style="font-family:var(--syne);font-size:0.62rem;font-weight:600;color:var(--black);margin-bottom:6px">Grilled salmon bowl</div>
+            <div style="height:3px;background:rgba(0,0,0,0.08);border-radius:10px"><div style="height:100%;width:72%;background:#4CAF50;border-radius:10px"></div></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px">
+            <div style="background:var(--white);border:1px solid var(--border);border-radius:3px;padding:7px 9px">
+              <div style="font-family:var(--syne);font-size:0.42rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--mid);margin-bottom:3px">Cal</div>
+              <div style="font-family:var(--syne);font-size:0.88rem;font-weight:700;color:var(--black)">867</div>
+            </div>
+            <div style="background:var(--white);border:1px solid var(--border);border-radius:3px;padding:7px 9px">
+              <div style="font-family:var(--syne);font-size:0.42rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--mid);margin-bottom:3px">Match</div>
+              <div style="font-family:var(--syne);font-size:0.88rem;font-weight:700;color:#4CAF50">72%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <span class="card-arr">&#8599;</span>
+    </a>
+
+    <a href="fluency-on-case-study.html" class="card reveal">
+      <div class="card-num">03</div>
+      <div class="card-body">
+        <div class="card-tags">
+          <span class="card-tag hi">Live Project</span>
+          <span class="card-tag">EdTech</span>
+          <span class="card-tag">Product Design</span>
+          <span class="card-tag">Full Stack</span>
+        </div>
+        <div class="card-title">
+          <b>Fluency On</b>
+          Designing a learning platform<br>that gives educators their time back
+        </div>
+        <p class="card-desc">80% reduction in admin work. 100+ active users. Two fully separate role-based portals. How dual mental models and workflow mapping gave teachers their time back.</p>
+      </div>
+      <div class="card-vis">
+        <div class="card-vis-inner" style="background:var(--sand);padding:20px;gap:9px;align-items:stretch">
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <div style="font-family:var(--syne);font-size:0.56rem;font-weight:800;color:var(--black)">Fluency <span style="color:var(--accent)">On</span></div>
+            <div style="font-family:var(--syne);font-size:0.42rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:2px 7px;border-radius:10px;background:rgba(200,84,28,0.2);color:var(--accent);border:1px solid rgba(200,84,28,0.3)">Teacher</div>
+          </div>
+          <div style="background:var(--white);border:1px solid var(--border);border-radius:4px;padding:9px 11px;display:flex;flex-direction:column;gap:6px">
+            <div style="font-family:var(--syne);font-size:0.42rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--mid);margin-bottom:2px">Progress</div>
+            <div style="display:flex;align-items:center;gap:7px"><div style="font-family:var(--syne);font-size:0.48rem;color:var(--mid);width:42px;flex-shrink:0">Vanessa</div><div style="flex:1;height:3px;background:rgba(0,0,0,0.08);border-radius:2px"><div style="height:100%;width:78%;background:var(--accent);border-radius:2px"></div></div></div>
+            <div style="display:flex;align-items:center;gap:7px"><div style="font-family:var(--syne);font-size:0.48rem;color:var(--mid);width:42px;flex-shrink:0">Mariana</div><div style="flex:1;height:3px;background:rgba(0,0,0,0.08);border-radius:2px"><div style="height:100%;width:94%;background:var(--accent);border-radius:2px"></div></div></div>
+            <div style="display:flex;align-items:center;gap:7px"><div style="font-family:var(--syne);font-size:0.48rem;color:#fca5a5;width:42px;flex-shrink:0">Carlos</div><div style="flex:1;height:3px;background:rgba(0,0,0,0.08);border-radius:2px"><div style="height:100%;width:9%;background:#fca5a5;border-radius:2px"></div></div></div>
+          </div>
+          <div style="background:rgba(252,165,165,0.1);border:1px solid rgba(252,165,165,0.2);border-radius:3px;padding:5px 9px;display:flex;align-items:center;gap:6px">
+            <div style="width:5px;height:5px;border-radius:50%;background:#fca5a5;flex-shrink:0"></div>
+            <div style="font-family:var(--syne);font-size:0.44rem;font-weight:600;color:var(--mid)">1 student needs attention</div>
+          </div>
+        </div>
+      </div>
+      <span class="card-arr">&#8599;</span>
+    </a>
+
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section reveal" id="about">
+  <div class="about-grid">
+    <div class="about-left">
+      <div class="about-label">About</div>
+      <p class="about-quote">
+        Growing up in Brazil taught me to pay attention. To color. To contrast. To how spaces hold people.<br><br>
+        That sensitivity follows me into my work. I design digital experiences with care, thinking about how <em>structure shapes feeling</em> and how clarity can create comfort.<br><br>
+        Design is how I make space.
+      </p>
+    </div>
+    <div class="about-right">
+      <div class="about-photo-wrap">
+        <img src="assets/genna-about.png" alt="Genna Gonzaga" class="about-photo" />
+      </div>
+      <div class="about-details">
+      <div class="about-item">
+        <div class="about-item-label">Currently</div>
+        <div class="about-item-val">Full Stack Engineer + Designer at Fluency</div>
+      </div>
+      <div class="about-item">
+        <div class="about-item-label">Education</div>
+        <div class="about-item-val">Columbia University, Computer Science and Visual Arts</div>
+      </div>
+      <div class="about-item">
+        <div class="about-item-label">Approach</div>
+        <div class="about-item-val">Research first, design second, build third. In that order, every time.</div>
+      </div>
+      <div class="about-item">
+        <div class="about-item-label">Also</div>
+        <div class="about-item-val">Birria taco enthusiast. Occasional crocheter. </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section reveal" id="contact">
+  <div class="contact-label">Get in touch</div>
+  <h2 class="contact-heading">
+    <strong>Let's work together</strong>
+    Let's make something considered.
+  </h2>
+  <a href="mailto:genna.g@columbia.edu" class="contact-link">genna.g@columbia.edu</a>
+</section>
+
+<footer>
+  <div class="footer-name">Genna <em>Gonzaga</em></div>
+  <div class="footer-right">Product Design + UX Research + Engineering &nbsp;/&nbsp; 2026</div>
+</footer>
+
+<script>
+// Page transitions — fade in on load, fade out before navigating
+document.addEventListener('click', function(e) {
+  var a = e.target.closest('a[href]');
+  if (!a || a.target === '_blank' || a.href.startsWith('mailto:') || a.href.startsWith('#')) return;
+  var href = a.getAttribute('href');
+  if (!href || href === '#' || !/\.html$|^index\.html$/i.test(href)) return;
+  if (a.origin !== location.origin && !href.startsWith('/') && !href.startsWith('./') && !href.match(/^[a-z-]+\.html$/)) return;
+  e.preventDefault();
+  document.body.classList.add('page-leaving');
+  setTimeout(function() { location.href = a.href; }, 350);
+}, true);
+
+// Loader — only on first load; skip when returning from case studies (fade in instead)
+var _loader = document.getElementById('loader');
+if (sessionStorage.getItem('skipLoader')) {
+  sessionStorage.removeItem('skipLoader');
+  if (_loader) _loader.style.display = 'none';
+  setTimeout(function() { document.body.classList.add('page-ready'); }, 80);
+} else {
+  document.body.classList.add('page-ready');
+  if (_loader) {
+    setTimeout(function() {
+      _loader.style.transition = 'opacity 0.8s ease';
+      _loader.style.opacity = '0';
+      _loader.style.pointerEvents = 'none';
+      setTimeout(function() { _loader.style.display = 'none'; }, 850);
+    }, 2400);
+  }
+}
+
+// Cursor
+var _dot = document.getElementById('cdot');
+var _ring = document.getElementById('cring');
+if (_dot && _ring) {
+  var mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', function(e) {
+    mx = e.clientX; my = e.clientY;
+    _dot.style.left = mx + 'px'; _dot.style.top = my + 'px';
+  });
+  (function tick() {
+    rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+    _ring.style.left = rx + 'px'; _ring.style.top = ry + 'px';
+    requestAnimationFrame(tick);
+  })();
+  document.querySelectorAll('a, button').forEach(function(el) {
+    el.addEventListener('mouseenter', function() {
+      _dot.style.width = _dot.style.height = '12px';
+      _ring.style.width = _ring.style.height = '54px';
+    });
+    el.addEventListener('mouseleave', function() {
+      _dot.style.width = _dot.style.height = '7px';
+      _ring.style.width = _ring.style.height = '38px';
+    });
+  });
+}
+
+// Scroll reveal — observer fires when elements scroll into view
+var _io = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e, i) {
+    if (e.isIntersecting) {
+      setTimeout(function() { e.target.classList.add('visible'); }, i * 100);
+      _io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.07 });
+document.querySelectorAll('.reveal').forEach(function(el) { _io.observe(el); });
+</script>
+</body>
+</html>

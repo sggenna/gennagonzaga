@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diciobase Case Study</title>
+<link rel="icon" href="assets/favicon.png" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;overflow-x:hidden}
+:root{
+  --black:#0d0d0b;--white:#faf8f4;--sand:#ede8dc;--border:#ddd9d0;
+  --mid:#888880;--accent:#c8541c;
+  --syne:'Syne',sans-serif;--body:'DM Sans',sans-serif;--serif:'Instrument Serif',serif;
+}
+body{background:var(--white);color:var(--black);font-family:var(--body);font-size:17px;line-height:1.75;overflow-x:hidden;cursor:none;opacity:0;transition:opacity 0.4s ease}
+body.page-ready{opacity:1}
+body.page-leaving{opacity:0}
+img{max-width:100%;height:auto;display:block}
+
+/* CURSOR */
+.cdot{position:fixed;width:7px;height:7px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:multiply;transition:width 0.2s,height 0.2s;left:0;top:0}
+.cring{position:fixed;width:38px;height:38px;border:1px solid rgba(200,84,28,0.35);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);left:0;top:0}
+.case-study-home{position:fixed;top:28px;left:52px;z-index:101;font-family:var(--syne);font-weight:800;font-size:0.8rem;letter-spacing:0.04em;text-transform:uppercase;text-decoration:none;color:var(--black);transition:opacity 0.2s,color 0.3s}
+.case-study-home:hover{opacity:0.7}
+.case-study-home em{color:var(--accent);font-style:normal}
+.case-study-home.nav-over-dark{color:var(--white)}
+.case-study-home.nav-over-dark em{color:var(--accent)}
+.case-study-nav-wrap{position:fixed;bottom:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:14px 52px 18px;border-top:1px solid var(--border);transition:opacity 0.35s ease,transform 0.35s ease,border-color 0.3s;opacity:0;pointer-events:none;transform:translateY(8px)}
+.case-study-nav-wrap.nav-visible{opacity:1;pointer-events:auto;transform:translateY(0)}
+.case-study-nav-wrap.nav-over-dark{border-color:rgba(255,255,255,0.15)}
+.case-study-nav-wrap.nav-over-dark .case-study-nav a{color:rgba(250,248,244,0.55)}
+.case-study-nav-wrap.nav-over-dark .case-study-nav a:hover{color:rgba(250,248,244,0.9)}
+.case-study-nav-wrap.nav-over-dark .case-study-nav a::before{background:rgba(250,248,244,0.25)}
+.case-study-nav-wrap.nav-over-dark .case-study-nav a:hover::before{background:rgba(250,248,244,0.55)}
+.case-study-nav-wrap.nav-over-dark .case-study-nav a.active{color:var(--white);background:rgba(200,84,28,0.25)}
+.case-study-nav-wrap.nav-over-dark .case-study-nav a.active::before{background:var(--accent);box-shadow:0 0 0 2px rgba(200,84,28,0.4)}
+.case-study-nav{display:flex;align-items:center;gap:20px;flex-wrap:wrap;justify-content:center}
+.case-study-nav a{font-family:var(--syne);font-size:0.58rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--mid);text-decoration:none;display:flex;align-items:center;gap:10px;transition:color 0.3s,background 0.3s;position:relative;white-space:nowrap;padding:8px 14px;border-radius:20px}
+.case-study-nav a::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--border);flex-shrink:0;transition:background 0.3s,transform 0.3s}
+.case-study-nav a:hover{color:var(--black)}
+.case-study-nav a:hover::before{background:var(--mid)}
+.case-study-nav a.active{color:var(--black);background:rgba(200,84,28,0.1);font-weight:700}
+.case-study-nav a.active::before{background:var(--accent);transform:scale(1.2);box-shadow:0 0 0 2px rgba(200,84,28,0.3)}
+body.has-bottom-nav{padding-bottom:64px}
+.hero{min-height:92vh;padding:130px 52px 80px;display:flex;flex-direction:column;justify-content:flex-end;border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+.hero-ghost{position:absolute;top:50%;left:44px;transform:translateY(-52%);font-family:var(--serif);font-style:italic;font-size:clamp(16vw,22vw,300px);color:transparent;-webkit-text-stroke:1px rgba(13,13,11,0.042);line-height:0.85;pointer-events:none;user-select:none;white-space:nowrap;letter-spacing:-0.04em}
+.hero-tag{font-family:var(--syne);font-size:0.68rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:24px;display:flex;align-items:center;gap:14px}
+.hero-tag::before{content:'';width:28px;height:1px;background:var(--accent)}
+.hero-demo{font-family:var(--syne);font-size:0.7rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--white);background:var(--accent);text-decoration:none;display:inline-block;margin-bottom:32px;padding:14px 28px;border-radius:4px;border:1px solid var(--accent);transition:background 0.2s,color 0.2s,transform 0.2s}
+.hero-demo:hover{background:transparent;color:var(--accent);transform:translateY(-2px)}
+.hero-title{font-family:var(--serif);font-size:clamp(3rem,7vw,7.5rem);font-style:italic;line-height:0.92;letter-spacing:-0.03em;margin-bottom:40px}
+.hero-title strong{font-style:normal;font-family:var(--syne);font-weight:800;font-size:0.46em;display:block;letter-spacing:-0.01em;margin-bottom:8px}
+.hero-meta-row{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--border);padding-top:36px}
+.hm{padding-right:40px;border-right:1px solid var(--border)}
+.hm:last-child{border-right:none;padding-left:40px;padding-right:0}
+.hm:nth-child(2),.hm:nth-child(3){padding-left:40px}
+.hm-label{font-family:var(--syne);font-size:0.6rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--mid);margin-bottom:7px}
+.hm-val{font-size:0.9rem;line-height:1.4}
+.s{padding:100px 52px;border-bottom:1px solid var(--border)}
+.s-dark{background:var(--black);color:var(--white)}
+.s-sand{background:var(--sand)}
+.s-label{font-family:var(--syne);font-size:0.66rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:18px;display:flex;align-items:center;gap:12px}
+.s-label::after{content:'';flex:1;height:1px;background:var(--accent);opacity:0.25}
+h2.s-title{font-family:var(--serif);font-size:clamp(2rem,3.8vw,3.5rem);font-style:italic;line-height:1.1;letter-spacing:-0.02em;margin-bottom:52px;max-width:640px}
+.cols2{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start}
+.cols2w{display:grid;grid-template-columns:3fr 2fr;gap:72px;align-items:start}
+.cols3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:28px}
+.prose{font-size:1.02rem;line-height:1.85;color:rgba(13,13,11,0.72)}
+.prose+.prose{margin-top:18px}
+.prose strong{color:var(--black);font-weight:500}
+.prose-light{color:rgba(250,248,244,0.68)}
+.pq{font-family:var(--serif);font-style:italic;font-size:1.4rem;line-height:1.55;border-left:2px solid var(--accent);padding-left:24px;margin:32px 0;color:var(--black)}
+.pq cite{display:block;margin-top:11px;font-size:0.7rem;font-style:normal;font-family:var(--syne);font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--mid)}
+.pq.dark{color:var(--white)}.pq.dark cite{color:rgba(250,248,244,0.4)}
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid;border-bottom:1px solid;margin:52px 0}
+.stat-row.light{border-color:var(--border)}.stat-row.dark{border-color:rgba(255,255,255,0.1)}
+.stat{padding:34px 0;border-right:1px solid}
+.stat-row.light .stat{border-color:var(--border)}.stat-row.dark .stat{border-color:rgba(255,255,255,0.1)}
+.stat:last-child{border-right:none;padding-left:40px}.stat:not(:first-child){padding-left:40px}
+.stat-n{font-family:var(--syne);font-size:2.6rem;font-weight:800;letter-spacing:-0.04em;line-height:1;margin-bottom:6px}
+.stat-n span{color:var(--accent)}.stat-d{font-size:0.8rem;color:var(--mid);line-height:1.4}
+.stat-row.dark .stat-n{color:var(--white)}.stat-row.dark .stat-d{color:rgba(250,248,244,0.38)}
+.card{background:var(--white);border:1px solid var(--border);border-radius:4px;padding:30px}
+.card-label{font-family:var(--syne);font-size:0.6rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);margin-bottom:11px}
+.card h3{font-family:var(--syne);font-size:1rem;font-weight:700;margin-bottom:9px;line-height:1.3}
+.card p{font-size:0.88rem;color:var(--mid);line-height:1.65}
+.finding{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid var(--border);align-items:flex-start}
+.finding:last-child{border-bottom:none}
+.fn{font-family:var(--syne);font-size:0.66rem;font-weight:700;color:var(--accent);min-width:26px;padding-top:2px}
+.ft{font-size:0.96rem;line-height:1.65}.ft strong{font-weight:500}
+.ib{background:var(--sand);border-left:3px solid var(--accent);border-radius:0 4px 4px 0;padding:24px 28px;margin-bottom:14px}
+.ib-q{font-family:var(--serif);font-style:italic;font-size:1.1rem;line-height:1.6;color:var(--black);margin-bottom:11px}
+.ib-who{font-family:var(--syne);font-size:0.6rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--mid)}
+.ib-who span{color:var(--accent)}
+.iter{border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:14px}
+.iter-head{display:flex;align-items:center;gap:13px;padding:12px 20px;background:var(--sand);border-bottom:1px solid var(--border)}
+.ver{font-family:var(--syne);font-size:0.57rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;padding:3px 8px;border-radius:20px;background:var(--black);color:var(--white)}
+.ver.v2{background:var(--accent)}.ver.v3{background:#2d6a4f}
+.iter-title{font-family:var(--syne);font-size:0.84rem;font-weight:600}
+.iter-body{padding:18px 20px}
+.iter-body p{font-size:0.87rem;line-height:1.65;color:var(--mid)}
+.verdict{margin-top:9px;font-size:0.8rem;font-weight:600;font-family:var(--syne)}
+.vf{color:#c0392b}.vp{color:var(--accent)}.vg{color:#2d6a4f}
+.wf-frame{background:var(--white);border:1px solid var(--border);border-radius:8px;overflow:hidden;box-shadow:0 6px 28px rgba(0,0,0,0.05)}
+.wf-bar{background:#2c2c2c;padding:9px 13px;display:flex;align-items:center;gap:6px}
+.wd{width:8px;height:8px;border-radius:50%}
+.wr{background:#ff5f57}.wy{background:#febc2e}.wg{background:#28c840}
+.wf-file{margin-left:9px;font-family:var(--syne);font-size:0.58rem;color:rgba(255,255,255,0.32)}
+.wf-screen{padding:22px;background:#f2f2f2}
+.wf-app{background:white;border-radius:5px;overflow:hidden;border:1px solid #e0e0e0;display:flex;flex-direction:column}
+.wf-top{background:#111;padding:8px 13px;display:flex;align-items:center;gap:9px}
+.wf-logo{width:68px;height:10px;background:rgba(255,255,255,0.18);border-radius:2px}
+.wf-navs{display:flex;gap:10px;margin-left:auto}
+.wf-ni{width:40px;height:6px;background:rgba(255,255,255,0.1);border-radius:2px}
+.wf-bd{display:flex;flex:1}
+.wf-sb{width:180px;background:#fafafa;border-right:1px solid #eee;padding:13px;flex-shrink:0}
+.wf-sbt{height:6px;background:#ddd;border-radius:2px;width:52%;margin-bottom:10px}
+.wf-sbi{height:24px;background:#eee;border-radius:3px;margin-bottom:4px}
+.wf-sbi.on{background:#111}
+.wf-main{flex:1;padding:14px}
+.wf-input{height:38px;background:#f0f0f0;border-radius:5px;border:2px dashed #ccc;margin-bottom:10px;display:flex;align-items:center;padding:0 12px}
+.wf-iph{font-family:var(--serif);font-style:italic;color:#c0c0c0;font-size:0.88rem}
+.wf-iph.typed{font-style:normal;font-family:var(--syne);font-size:0.82rem;font-weight:600;color:#444}
+.wf-chips{display:flex;gap:5px;margin-bottom:12px;flex-wrap:wrap}
+.wc{height:22px;background:#eee;border-radius:20px;padding:0 10px;display:flex;align-items:center;font-size:0.62rem;color:#999;font-family:var(--syne);font-weight:600;letter-spacing:0.05em}
+.wc.on{background:#111;color:white}
+.wf-split{display:grid;grid-template-columns:180px 1fr;gap:11px}
+.wf-rl{display:flex;flex-direction:column;gap:4px}
+.wf-ri{padding:8px 10px;border-radius:3px;border:1px solid #eee;border-left:3px solid #ddd}
+.wf-ri.sel{border-left-color:#111;background:#f8f8f8}
+.wf-rw{height:7px;background:#ccc;border-radius:2px;width:62%;margin-bottom:4px}
+.wf-rs{height:5px;background:#e5e5e5;border-radius:2px;width:38%}
+.wf-det{border:1px solid #eee;border-radius:4px;padding:12px}
+.wf-dw{height:19px;background:#ccc;border-radius:3px;width:34%;margin-bottom:5px}
+.wf-dtag{height:15px;width:76px;background:#eee;border-radius:10px;margin-bottom:10px}
+.wf-dtabs{display:flex;gap:2px;margin-bottom:10px;border-bottom:1px solid #eee;padding-bottom:6px}
+.wf-dt{font-size:0.62rem;padding:2px 7px;color:#bbb;font-family:var(--syne);font-weight:600;letter-spacing:0.04em;border-radius:2px}
+.wf-dt.on{background:#111;color:white}
+.wl{height:5px;background:#eee;border-radius:2px;margin-bottom:4px}
+.ann-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:14px}
+.ann{display:flex;gap:10px;align-items:flex-start}
+.an{font-family:var(--syne);font-size:0.6rem;font-weight:700;color:var(--accent);min-width:15px;padding-top:2px}
+.at{font-size:0.79rem;color:var(--mid);line-height:1.5}
+.at strong{color:var(--black)}
+.dtable{border:1px solid var(--border);border-radius:4px;overflow:hidden}
+.drow{display:grid;grid-template-columns:1fr 1fr}
+.drow+.drow{border-top:1px solid var(--border)}
+.dcell{padding:26px 30px}
+.dcell+.dcell{border-left:1px solid var(--border)}
+.dc-lab{font-family:var(--syne);font-size:0.58rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:9px}
+.dc-ch{color:var(--mid)}.dc-re{color:var(--accent)}
+.dc-text{font-size:0.9rem;line-height:1.65}
+.dc-text strong{font-weight:500}
+.outcome-band{display:grid;grid-template-columns:repeat(3,1fr);background:var(--black)}
+.oi{padding:48px 44px;border-right:1px solid rgba(255,255,255,0.07)}
+.oi:last-child{border-right:none}
+.on-num{font-family:var(--syne);font-size:3rem;font-weight:800;letter-spacing:-0.04em;color:var(--white);margin-bottom:8px}
+.on-num span{color:var(--accent)}
+.on-lab{font-size:0.86rem;color:rgba(250,248,244,0.44);line-height:1.5}
+.principle{padding:30px 0;border-bottom:1px solid var(--border);display:grid;grid-template-columns:160px 1fr;gap:36px}
+.principle:last-child{border-bottom:none}
+.pr-num{font-family:var(--syne);font-size:0.62rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);padding-top:3px}
+.pr-body h3{font-family:var(--syne);font-size:0.96rem;font-weight:700;margin-bottom:7px}
+.pr-body p{font-size:0.88rem;color:var(--mid);line-height:1.65}
+.fpb{background:#1a1a1a;border-radius:5px;overflow:hidden;margin:18px 0}
+.fpb-head{padding:9px 15px;background:#252525;border-bottom:1px solid #333;font-family:var(--syne);font-size:0.6rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#777;display:flex;align-items:center;gap:7px}
+.fpb-accent{color:var(--accent)}
+.fpb-body{padding:14px 18px}
+.fpb-body p{font-family:'Courier New',monospace;font-size:0.77rem;line-height:1.75;color:#aaa}
+.fpb-body strong{color:#ddd;font-weight:400}
+.fpb-body em{color:#f0944a;font-style:normal}
+.screen-label{font-family:var(--syne);font-size:0.62rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--mid);margin-bottom:10px}
+.lofi-row{display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start;justify-content:center;margin-bottom:40px}
+.lofi-item{flex:1;min-width:200px;max-width:320px}
+.lofi-frame .wf-screen img{width:100%;height:auto;display:block;border-radius:4px}
+.userflow{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:0;margin:28px 0}
+.userflow-node{background:var(--white);border:2px solid var(--border);border-radius:8px;padding:16px 22px;font-family:var(--syne);font-size:0.72rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--black);text-align:center;min-width:110px;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
+.userflow-node span{display:block;font-family:var(--body);font-size:0.6rem;font-weight:400;letter-spacing:0;text-transform:none;color:var(--mid);margin-top:4px}
+.userflow-arrow{width:36px;height:4px;background:var(--accent);flex-shrink:0;position:relative;opacity:0.85}
+.userflow-arrow::after{content:'';position:absolute;right:0;top:50%;width:12px;height:12px;border-right:4px solid var(--accent);border-bottom:4px solid var(--accent);transform:translateY(-50%) rotate(-45deg)}
+.flow-diagram{background:var(--sand);border:1px solid var(--border);border-radius:12px;padding:36px 28px;margin:24px 0;box-shadow:inset 0 1px 0 rgba(255,255,255,0.5)}
+.flow-block-title{font-family:var(--syne);font-size:0.68rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--mid);margin-bottom:16px}
+.flow-block-title span{color:var(--accent)}
+.flow-note{font-size:0.82rem;color:var(--mid);line-height:1.5;margin-top:10px}
+
+/* MARQUEE */
+.marquee-wrap{border-top:1px solid var(--border);border-bottom:1px solid var(--border);overflow:hidden;padding:12px 0;white-space:nowrap}
+.marquee-track{display:inline-flex;animation:marquee 22s linear infinite}
+.marquee-item{display:inline-flex;align-items:center;gap:20px;padding:0 20px;font-family:var(--syne);font-size:0.62rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--mid)}
+.m-dot{width:3px;height:3px;border-radius:50%;background:var(--accent);flex-shrink:0}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+.tools{display:flex;flex-wrap:wrap;gap:7px;margin-top:22px}
+.tool{font-family:var(--syne);font-size:0.64rem;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;padding:6px 13px;border-radius:2px;border:1px solid var(--border);color:var(--mid)}
+.reveal{opacity:0;transform:translateY(-28px);transition:opacity 0.7s cubic-bezier(0.22,1,0.36,1),transform 0.7s cubic-bezier(0.22,1,0.36,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+footer{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border);flex-wrap:wrap;gap:16px}
+@media(max-width:900px){
+  .case-study-home{left:24px;top:20px}
+  .case-study-nav-wrap{padding:12px 24px 16px}
+  .case-study-nav{gap:16px}
+  .hero,.s{padding-left:24px;padding-right:24px}
+  .hero{padding-top:100px;padding-bottom:60px}
+  .s{padding:60px 24px}
+  .hero-meta-row{grid-template-columns:1fr 1fr}
+  .hm{padding:14px 0;border-right:none;border-bottom:1px solid var(--border)}
+  .hm:nth-child(2),.hm:nth-child(3){padding-left:0}
+  .hm:last-child{padding-left:0}
+  .cols2,.cols2w,.cols3{grid-template-columns:1fr;gap:32px}
+  .stat-row{grid-template-columns:1fr 1fr}
+  .outcome-band{grid-template-columns:1fr}
+  .ann-grid{grid-template-columns:1fr}
+  .lofi-row{flex-direction:column;align-items:center}
+  .lofi-item{max-width:100%}
+  .userflow{flex-direction:column;align-items:center}
+  .userflow-arrow{width:4px;height:24px;transform:rotate(90deg)}
+  .userflow-arrow::after{right:50%;top:0;transform:translate(50%,-50%) rotate(-135deg)}
+  .drow{grid-template-columns:1fr}
+  .dcell+.dcell{border-left:none;border-top:1px solid var(--border)}
+  .principle{grid-template-columns:1fr;gap:10px}
+  .wf-split{grid-template-columns:1fr}
+  footer{flex-direction:column;align-items:flex-start;gap:12px;padding:24px}
+}
+@media(max-width:600px){
+  .hero,.s{padding-left:20px;padding-right:20px}
+  .hero{padding-top:90px;padding-bottom:48px}
+  .s{padding:48px 20px}
+  .hero-meta-row{grid-template-columns:1fr}
+  .stat-row{grid-template-columns:1fr}
+  .outcome-band{grid-template-columns:1fr}
+  .case-study-home{left:20px;top:16px;font-size:0.72rem}
+  .case-study-nav-wrap{padding:10px 20px 14px}
+  .case-study-nav{gap:12px}
+  .case-study-nav a{font-size:0.54rem}
+  body.has-bottom-nav{padding-bottom:80px}
+  .marquee-item{font-size:0.58rem;padding:0 14px}
+  footer{padding:20px;flex-wrap:wrap}
+}
+@media(hover:none) and (pointer:coarse){
+  body{cursor:auto}
+  .cdot,.cring{display:none}
+}
+
+/* SOURCE COLORS */
+.src-houaiss{border-left-color:#2563eb!important}.src-houaiss .src-badge{background:#dbeafe;color:#1d4ed8}
+.src-aurelio{border-left-color:#16a34a!important}.src-aurelio .src-badge{background:#dcfce7;color:#15803d}
+.src-michaelis{border-left-color:#9333ea!important}.src-michaelis .src-badge{background:#f3e8ff;color:#7e22ce}
+.src-priberam{border-left-color:#d97706!important}.src-priberam .src-badge{background:#fef3c7;color:#b45309}
+.src-infopedia{border-left-color:#e11d48!important}.src-infopedia .src-badge{background:#ffe4e6;color:#be123c}
+.src-badge{font-family:var(--syne);font-size:0.44rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:2px 6px;border-radius:2px;display:inline-block;margin-bottom:4px}
+/* SEARCH SCREEN */
+.wf-search-center{display:flex;flex-direction:column;align-items:center;padding:28px 20px 16px}
+.wf-search-title{font-family:var(--serif);font-style:italic;font-size:1.4rem;color:#111;margin-bottom:4px}
+.wf-search-sub{font-family:var(--syne);font-size:0.5rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#bbb;margin-bottom:18px}
+.wf-search-box{width:100%;max-width:520px;height:44px;background:white;border:2px solid #ddd;border-radius:6px;display:flex;align-items:center;padding:0 14px;gap:10px;margin-bottom:12px}
+.wf-search-icon{color:#bbb;font-size:0.9rem;flex-shrink:0}
+.wf-search-ph{font-family:var(--serif);font-style:italic;font-size:0.88rem;color:#bbb}
+.wf-chips-row{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-bottom:8px}
+.wc-src{height:24px;border-radius:20px;padding:0 11px;display:flex;align-items:center;gap:5px;font-size:0.58rem;color:#999;font-family:var(--syne);font-weight:600;letter-spacing:0.05em;border:1.5px solid #e8e8e8;cursor:pointer}
+.wc-src.on{border-color:transparent;color:white}
+.wc-src.h.on{background:#2563eb}.wc-src.a.on{background:#16a34a}
+.wc-src.m.on{background:#9333ea}.wc-src.p.on{background:#d97706}.wc-src.i.on{background:#e11d48}
+.wc-src .wc-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.wc-src.h .wc-dot{background:#2563eb}.wc-src.a .wc-dot{background:#16a34a}
+.wc-src.m .wc-dot{background:#9333ea}.wc-src.p .wc-dot{background:#d97706}.wc-src.i .wc-dot{background:#e11d48}
+.wc-src.on .wc-dot{background:rgba(255,255,255,0.6)}
+/* RESULTS SCREEN */
+.wf-split2{display:grid;grid-template-columns:220px 1fr;gap:0;height:320px}
+.wf-results-list{border-right:1px solid #eee;overflow:hidden;display:flex;flex-direction:column}
+.wf-results-header{padding:8px 11px;background:#f5f5f5;border-bottom:1px solid #eee;font-family:var(--syne);font-size:0.48rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#bbb}
+.wf-ri2{padding:9px 11px;border-bottom:1px solid #f0f0f0;border-left:3px solid #ddd;cursor:pointer}
+.wf-ri2.sel{background:#fafafa;border-left-width:3px}
+.wf-ri2-word{font-family:var(--syne);font-size:0.68rem;font-weight:700;color:#111;margin-bottom:1px}
+.wf-ri2-src{font-family:var(--syne);font-size:0.46rem;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;color:#bbb}
+.wf-detail{padding:14px;overflow:hidden;display:flex;flex-direction:column;gap:10px}
+.wf-detail-word{font-family:var(--serif);font-style:italic;font-size:1.5rem;color:#111;line-height:1}
+.wf-detail-pos{display:inline-block;font-family:var(--syne);font-size:0.52rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#bbb;border:1px solid #e8e8e8;padding:2px 7px;border-radius:2px;margin-top:2px}
+.wf-detail-def{font-size:0.78rem;line-height:1.65;color:#444;border-left:2px solid #eee;padding-left:10px}
+.wf-detail-etym{font-size:0.72rem;color:#888;line-height:1.5;font-family:var(--serif);font-style:italic}
+.wf-related-label{font-family:var(--syne);font-size:0.46rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#bbb}
+.wf-pills{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px}
+.wf-pill{font-family:var(--syne);font-size:0.54rem;font-weight:600;padding:3px 9px;border-radius:20px;background:#f0f0f0;color:#555;border:1px solid #e0e0e0}
+/* COMPARISON SCREEN */
+.wf-compare-top{padding:8px 14px;background:#f5f5f5;border-bottom:1px solid #eee;display:flex;align-items:center;gap:8px}
+.wf-compare-word{font-family:var(--syne);font-size:0.72rem;font-weight:700;color:#111}
+.wf-compare-badge{font-family:var(--syne);font-size:0.46rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:2px 7px;border-radius:2px;background:#111;color:white;margin-left:auto}
+.wf-cols3{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+.wf-col{border-right:1px solid #eee;padding:12px;overflow:hidden}
+.wf-col:last-child{border-right:none}
+.wf-col-head{height:4px;border-radius:2px;margin-bottom:8px}
+.wf-col-src{font-family:var(--syne);font-size:0.52rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:6px}
+.wf-col-word{font-family:var(--serif);font-style:italic;font-size:1.1rem;color:#111;margin-bottom:4px;line-height:1}
+.wf-col-pos{font-family:var(--syne);font-size:0.46rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#bbb;margin-bottom:7px}
+.wf-col-def{font-size:0.72rem;line-height:1.6;color:#555;margin-bottom:8px}
+.wf-col-etym{font-family:var(--serif);font-style:italic;font-size:0.66rem;color:#888;border-top:1px solid #f0f0f0;padding-top:7px;margin-top:4px}
+.wf-col-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}
+.wf-col-tag{font-family:var(--syne);font-size:0.44rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;padding:2px 6px;border-radius:2px;background:#f0f0f0;color:#777}
+
+
+/* ── SKETCHY FLOW ──────────────────────────────────────────── */
+
+.sketch-flow{margin:28px 0 10px;display:flex;flex-direction:column;gap:0}
+.sf-row{display:flex;align-items:center;gap:0;position:relative}
+.sf-step{position:relative;flex:1;padding:14px 16px 12px;background:white;border:2px solid var(--black);border-radius:2px;box-shadow:3px 3px 0 rgba(0,0,0,0.12);cursor:default;transition:box-shadow 0.15s}
+.sf-step:hover{box-shadow:5px 5px 0 rgba(0,0,0,0.18)}
+.sf-num{font-family:var(--syne);font-size:0.72rem;color:var(--accent);font-weight:700;line-height:1;margin-bottom:3px}
+.sf-label{font-family:var(--syne);font-size:1rem;font-weight:600;color:var(--black);line-height:1.2}
+.sf-sub{font-family:var(--syne);font-size:0.78rem;color:var(--mid);margin-top:2px;line-height:1.3}
+.sf-pain{position:absolute;top:-22px;left:50%;transform:translateX(-50%);background:#fff5f5;border:1.5px solid #fca5a5;border-radius:2px;padding:2px 7px;font-family:var(--syne);font-size:0.72rem;color:#c0392b;white-space:nowrap;box-shadow:1px 1px 0 rgba(192,57,43,0.15)}
+.sf-pain::after{content:'';position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);border-left:5px solid transparent;border-right:5px solid transparent;border-top:6px solid #fca5a5}
+.sf-arr{width:28px;flex-shrink:0;display:flex;align-items:center;justify-content:center;position:relative;padding-top:0}
+.sf-arr::before{content:'';position:absolute;left:0;right:0;height:2px;background:var(--black);top:50%}
+.sf-arr::after{content:'▶';position:absolute;right:-2px;font-size:0.6rem;color:var(--black);top:50%;transform:translateY(-50%)}
+.sf-branch{width:2px;background:var(--border);margin:0 auto;height:18px}
+.sf-row-label{font-family:var(--syne);font-size:0.8rem;font-weight:700;letter-spacing:0.05em;color:var(--mid);writing-mode:horizontal-tb;padding:6px 10px;background:var(--sand);border:1.5px solid var(--border);border-radius:2px;white-space:nowrap;flex-shrink:0;width:80px;text-align:center;margin-right:8px;font-size:0.7rem}
+.sf-row-label.highlight{background:#fff5f5;border-color:#fca5a5;color:#c0392b}
+.sf-step.alt{border-style:dashed;background:var(--sand)}
+.sf-step.pain-step{border-color:#fca5a5;background:#fff9f9}
+
+/* ── AFFINITY MAP (Excalidraw-style) ────────────────────────── */
+.affinity-board{background:#f7f5f0;border:1px solid var(--border);border-radius:6px;padding:20px 22px;margin:20px 0;position:relative}
+.affinity-board::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(0,0,0,0.055) 1px,transparent 1px);background-size:20px 20px;border-radius:6px;pointer-events:none}
+.affinity-cluster{margin-bottom:18px;display:grid;grid-template-columns:100px 1fr;gap:12px;align-items:start}
+.affinity-cluster:last-child{margin-bottom:0}
+.ac-label{font-family:var(--syne);font-size:0.54rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;line-height:1.4;padding-top:6px}
+.ac-notes{display:flex;flex-wrap:wrap;gap:6px}
+.sticky{padding:6px 8px 8px;border-radius:2px;font-family:var(--body);font-size:0.68rem;line-height:1.35;transform:rotate(var(--r,0deg));position:relative;transition:transform 0.15s;cursor:default;border-top:2px solid rgba(0,0,0,0.12);flex-shrink:0}
+.sticky:hover{transform:rotate(0deg) scale(1.04);z-index:2}
+.sy{background:#fef08a;box-shadow:2px 2px 0 #d4bc00,0 2px 6px rgba(0,0,0,0.12)}
+.sy2{background:#fde68a;box-shadow:2px 2px 0 #c9b000,0 2px 6px rgba(0,0,0,0.12)}
+.sb{background:#bfdbfe;box-shadow:2px 2px 0 #60a5fa,0 2px 6px rgba(0,0,0,0.12)}
+.sb2{background:#93c5fd;box-shadow:2px 2px 0 #3b82f6,0 2px 6px rgba(0,0,0,0.12)}
+.sg{background:#bbf7d0;box-shadow:2px 2px 0 #4ade80,0 2px 6px rgba(0,0,0,0.12)}
+.sg2{background:#86efac;box-shadow:2px 2px 0 #22c55e,0 2px 6px rgba(0,0,0,0.12)}
+.sl{background:#ddd6fe;box-shadow:2px 2px 0 #a78bfa,0 2px 6px rgba(0,0,0,0.12)}
+.sl2{background:#c4b5fd;box-shadow:2px 2px 0 #8b5cf6,0 2px 6px rgba(0,0,0,0.12)}
+
+/* ── TASK ANALYSIS ──────────────────────────────────────────── */
+.task-flow{margin:20px 0;overflow-x:auto}
+.task-row{display:flex;align-items:stretch;gap:0;margin-bottom:3px}
+.task-phase{width:90px;flex-shrink:0;padding:8px 10px;background:var(--black);color:white;display:flex;align-items:center;justify-content:center;font-family:var(--syne);font-size:0.76rem;font-weight:700;text-align:center;line-height:1.25;border-radius:3px 0 0 3px}
+.task-phase.p2{background:#444}
+.task-phase.p3{background:#2d6a4f}
+.task-phase.p4{background:#c0392b}
+.task-phase.p5{background:#1d4ed8}
+.task-steps{display:flex;gap:3px;flex:1;align-items:stretch}
+.task-step{flex:1;padding:7px 8px;border:1.5px solid var(--border);border-radius:0 3px 3px 0;font-family:var(--syne);font-size:0.78rem;line-height:1.3;color:var(--black);background:white;position:relative;min-width:80px}
+.task-step.pain{background:#fff5f5;border-color:#fca5a5}
+.task-step .step-n{font-family:var(--syne);font-size:0.6rem;color:var(--accent);font-weight:700;display:block;margin-bottom:1px}
+.task-step.pain .step-n{color:#c0392b}
+.task-total{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:14px;padding:14px 20px;background:var(--black);border-radius:4px}
+.tt-item{text-align:center}
+.tt-n{font-family:var(--syne);font-size:2rem;font-weight:700;color:white;line-height:1}
+.tt-n span{color:var(--accent)}
+.tt-l{font-family:var(--syne);font-size:0.78rem;color:rgba(255,255,255,0.5)}
+.tt-div{width:1px;height:40px;background:rgba(255,255,255,0.15)}
+.pain-legend{display:flex;align-items:center;gap:16px;margin-top:10px;flex-wrap:wrap}
+.pl-item{display:flex;align-items:center;gap:6px;font-family:var(--syne);font-size:0.78rem;color:var(--mid)}
+.pl-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+
+</style>
+</head>
+<body>
+
+<div class="cdot" id="cdot"></div>
+<div class="cring" id="cring"></div>
+
+<a href="index.html" class="case-study-home">Genna <em>Gonzaga</em></a>
+<div class="case-study-nav-wrap">
+  <nav class="case-study-nav">
+    <a href="#context" class="nav-item active">Context</a>
+    <a href="#problem" class="nav-item">Problem</a>
+    <a href="#research" class="nav-item">Research</a>
+    <a href="#define" class="nav-item">Findings</a>
+    <a href="#flows" class="nav-item">User Flow</a>
+    <a href="#design" class="nav-item">Design</a>
+    <a href="#wireframes" class="nav-item">Wireframes</a>
+    <a href="#engineering" class="nav-item">Engineering</a>
+    <a href="#outcomes" class="nav-item">Outcomes</a>
+  </nav>
+</div>
+
+<section class="hero">
+  <div class="hero-ghost" aria-hidden="true">Dicio</div>
+  <div class="hero-tag">Case Study, Product + UX Research</div>
+  <a href="https://diciobase-updated.vercel.app/" target="_blank" rel="noopener noreferrer" class="hero-demo">View live demo →</a>
+  <h1 class="hero-title">
+    <strong>Diciobase</strong>
+    Five databases.<br>One search.
+  </h1>
+  <div class="hero-meta-row">
+    <div class="hm"><div class="hm-label">My Role</div><div class="hm-val">UX Researcher + Software Engineer</div></div>
+    <div class="hm"><div class="hm-label">Timeline</div><div class="hm-val">2025, Present</div></div>
+    <div class="hm"><div class="hm-label">Methods</div><div class="hm-val">Interviews, Task Analysis, Usability Testing, Iterative Design</div></div>
+    <div class="hm"><div class="hm-label">Tools</div><div class="hm-val">Figma, PostgreSQL, React, Supabase, Notion</div></div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap" aria-hidden="true">
+  <div class="marquee-track">
+    <span class="marquee-item"><span class="m-dot"></span>Lexicography</span>
+    <span class="marquee-item"><span class="m-dot"></span>User Interviews</span>
+    <span class="marquee-item"><span class="m-dot"></span>Full-Text Search</span>
+    <span class="marquee-item"><span class="m-dot"></span>PostgreSQL</span>
+    <span class="marquee-item"><span class="m-dot"></span>Supabase</span>
+    <span class="marquee-item"><span class="m-dot"></span>Task Analysis</span>
+    <span class="marquee-item"><span class="m-dot"></span>Portuguese Dictionary</span>
+    <span class="marquee-item"><span class="m-dot"></span>Usability Testing</span>
+    <span class="marquee-item"><span class="m-dot"></span>React</span>
+    <span class="marquee-item"><span class="m-dot"></span>Lexicography</span>
+    <span class="marquee-item"><span class="m-dot"></span>User Interviews</span>
+    <span class="marquee-item"><span class="m-dot"></span>Full-Text Search</span>
+    <span class="marquee-item"><span class="m-dot"></span>PostgreSQL</span>
+    <span class="marquee-item"><span class="m-dot"></span>Supabase</span>
+    <span class="marquee-item"><span class="m-dot"></span>Task Analysis</span>
+    <span class="marquee-item"><span class="m-dot"></span>Portuguese Dictionary</span>
+    <span class="marquee-item"><span class="m-dot"></span>Usability Testing</span>
+    <span class="marquee-item"><span class="m-dot"></span>React</span>
+  </div>
+</div>
+
+<section class="s" id="context">
+  <div class="s-label">01 / Context</div>
+  <div class="cols2w">
+    <div>
+      <h2 class="s-title reveal">The data existed. The researchers existed. Nobody had watched them work.</h2>
+      <p class="prose reveal">Diciobase connects five universities and linguistics institutes across Brazil and Portugal into one searchable Portuguese dictionary platform. I joined as a software engineering intern in 2025, initially tasked with database architecture, but the technical problem was inseparable from a user research problem nobody had asked me to solve yet.</p>
+      <blockquote class="pq reveal">"We have all this data. Researchers just cannot get to it without emailing three people and waiting a week."<cite><span>Babacar</span> / Project Lead</cite></blockquote>
+      <p class="prose reveal">I spent three weeks on discovery before writing a single line of implementation code.</p>
+    </div>
+    <div class="reveal">
+      <div class="card">
+        <div class="card-label">Skills applied</div>
+        <div class="finding"><div class="fn">UX</div><div class="ft">User interviews, affinity mapping, task analysis, usability testing, Figma wireframing</div></div>
+        <div class="finding"><div class="fn">ENG</div><div class="ft">Relational DB design, full-text search indexing, REST API, React, PostgreSQL optimization</div></div>
+        <div class="finding"><div class="fn">PM</div><div class="ft">Scope prioritization, cross-institutional coordination, stakeholder alignment</div></div>
+      </div>
+      <div class="tools"><span class="tool">Figma</span><span class="tool">Notion</span><span class="tool">Zoom</span><span class="tool">PostgreSQL</span><span class="tool">Supabase</span><span class="tool">React</span><span class="tool">Node.js</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="s s-dark" id="problem">
+  <div class="s-label" style="color:var(--accent)">02 / The Problem</div>
+  <h2 class="s-title reveal" style="color:var(--white)">Researchers were doing a database engineer's job every single morning</h2>
+  <div class="cols2 reveal">
+    <p class="prose prose-light">Each institution built its dictionary database independently, different column names, different taxonomies, different encoding. To compare definitions across sources, a researcher had to log into five portals, export five CSVs, and manually reconcile them in a spreadsheet. Every single time.</p>
+    <div>
+      <blockquote class="pq dark">"Before I can actually do research I spend two hours getting data into a readable format. That is not research. That is data wrangling."<cite><span>PhD Researcher</span> / UFBA</cite></blockquote>
+      <blockquote class="pq dark" style="margin-top:20px">"I have a script that does some merging. It breaks every time an institution updates their export format."<cite><span>Lexicographer</span> / USP</cite></blockquote>
+    </div>
+  </div>
+  <div class="stat-row dark">
+    <div class="stat"><div class="stat-n">5<span>+</span></div><div class="stat-d">Incompatible database schemas</div></div>
+    <div class="stat"><div class="stat-n">2<span>hrs</span></div><div class="stat-d">Average data prep before any research could begin</div></div>
+    <div class="stat"><div class="stat-n">0</div><div class="stat-d">Shared query interfaces across all institutions</div></div>
+    <div class="stat"><div class="stat-n">23</div><div class="stat-d">Steps in a single research query, found through task analysis</div></div>
+  </div>
+</section>
+
+<section class="s s-sand" id="research">
+  <div class="s-label">03 / User Research</div>
+  <h2 class="s-title reveal">8 researchers. 4 institutions. 3 weeks of listening.</h2>
+
+  <div class="cols2w reveal" style="margin-bottom:52px">
+    <div>
+      <p class="prose">I conducted eight semi-structured interviews across UFBA, USP, and UC Lisbon, plus two contextual inquiry sessions watching researchers work on screen share. Seeing them work was more revealing than any question I asked, including one researcher&rsquo;s home-built Python script she ran every day and had never mentioned to anyone.</p>
+      <div style="margin-top:32px">
+        <p style="font-family:var(--syne);font-size:0.6rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--mid);margin-bottom:12px">Voices from the field</p>
+        <div class="ib"><div class="ib-q">&ldquo;The worst part is not even the time. It is not knowing if I got them all. Did I miss a variant? There is no way to tell.&rdquo;</div><div class="ib-who"><span>PhD Researcher</span> / Historical Linguistics, UFBA</div></div>
+        <div class="ib"><div class="ib-q">&ldquo;I teach my students to do this manually because there is no other option. They lose half a week just setting up for one question.&rdquo;</div><div class="ib-who"><span>Professor and Lexicographer</span> / USP</div></div>
+        <div class="ib"><div class="ib-q">&ldquo;I do not care how it is stored. I care about the word in front of me and where it came from.&rdquo;</div><div class="ib-who"><span>Masters Student</span> / Comparative Etymology, UC Lisbon</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-label">Who I talked to (n=8)</div>
+        <div class="finding"><div class="fn">3</div><div class="ft">PhD researchers in historical linguistics</div></div>
+        <div class="finding"><div class="fn">2</div><div class="ft">Professional lexicographers actively writing entries</div></div>
+        <div class="finding"><div class="fn">2</div><div class="ft">Masters students in comparative etymology</div></div>
+        <div class="finding"><div class="fn">1</div><div class="ft">Research librarian managing institutional archives</div></div>
+      </div>
+      <div class="card" style="margin-top:12px">
+        <div class="card-label">Methods</div>
+        <div class="finding"><div class="fn">01</div><div class="ft"><strong>Semi-structured interviews</strong>: 45&ndash;60 min Zoom sessions across career stages</div></div>
+        <div class="finding"><div class="fn">02</div><div class="ft"><strong>Contextual inquiry</strong>: screen share sessions watching real tasks happen in real time</div></div>
+        <div class="finding"><div class="fn">03</div><div class="ft"><strong>Affinity mapping</strong>: clustering 140+ raw observations into themes</div></div>
+        <div class="finding"><div class="fn">04</div><div class="ft"><strong>Task analysis</strong>: end-to-end workflow mapping, 23 steps before any research began</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AFFINITY MAP -->
+  <div class="reveal" style="margin-bottom:52px">
+    <div class="s-label" style="margin-bottom:6px">Affinity Map</div>
+    <p style="font-family:var(--syne);font-size:0.6rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--mid);margin-bottom:20px">140+ raw observations &rarr; 4 themes &rarr; 3 design principles</p>
+    <div class="affinity-board">
+      <div class="affinity-cluster">
+        <div class="ac-label" style="color:#c0392b">Time &amp; Access Friction</div>
+        <div class="ac-notes">
+          <div class="sticky sy" style="--r:-1.2deg">&ldquo;5 browser tabs open at once&rdquo;</div>
+          <div class="sticky sy2" style="--r:1.5deg">Logs in to each dictionary separately</div>
+          <div class="sticky sy" style="--r:-0.8deg">&ldquo;I lose an hour before I even start&rdquo;</div>
+          <div class="sticky sy2" style="--r:1.1deg">Different login credentials per database</div>
+          <div class="sticky sy" style="--r:-1.8deg">Students copy-paste between tabs all day</div>
+          <div class="sticky sy2" style="--r:0.7deg">&ldquo;Half a week just to set up a question&rdquo;</div>
+          <div class="sticky sy" style="--r:-0.5deg">No cross-search exists anywhere</div>
+        </div>
+      </div>
+      <div class="affinity-cluster">
+        <div class="ac-label" style="color:#1d4ed8">Provenance &amp; Trust</div>
+        <div class="ac-notes">
+          <div class="sticky sb" style="--r:1.3deg">&ldquo;Houaiss for modern, DHLP for historical&rdquo;</div>
+          <div class="sticky sb2" style="--r:-0.9deg">Source identity is part of the finding</div>
+          <div class="sticky sb" style="--r:1.7deg">&ldquo;I need to know where it came from&rdquo;</div>
+          <div class="sticky sb2" style="--r:-1.4deg">Would reject any AI summary layer</div>
+          <div class="sticky sb" style="--r:0.6deg">Skeptical of normalized/merged data</div>
+          <div class="sticky sb2" style="--r:1.2deg">Each dict. has different academic weight</div>
+        </div>
+      </div>
+      <div class="affinity-cluster">
+        <div class="ac-label" style="color:#15803d">Non-linear Navigation</div>
+        <div class="ac-notes">
+          <div class="sticky sg" style="--r:-1.1deg">Follows etymological threads</div>
+          <div class="sticky sg2" style="--r:1.4deg">&ldquo;One word leads to six others&rdquo;</div>
+          <div class="sticky sg" style="--r:-0.7deg">Prints pages to lay side by side</div>
+          <div class="sticky sg2" style="--r:1.6deg">Scans for related forms</div>
+          <div class="sticky sg" style="--r:-1.5deg">Dead ends cause visible frustration</div>
+          <div class="sticky sg2" style="--r:0.8deg">Needs wandering</div>
+        </div>
+      </div>
+      <div class="affinity-cluster">
+        <div class="ac-label" style="color:#7e22ce">Citation &amp; Reproducibility</div>
+        <div class="ac-notes">
+          <div class="sticky sl" style="--r:1.2deg">URLs break when databases restructure</div>
+          <div class="sticky sl2" style="--r:-0.8deg">&ldquo;Had to amend a published paper&rdquo;</div>
+          <div class="sticky sl" style="--r:1.5deg">No permanent link to a specific entry</div>
+          <div class="sticky sl2" style="--r:-1.3deg">Cites dictionaries in papers, needs stability</div>
+          <div class="sticky sl" style="--r:0.6deg">Shares links with collaborators that expire</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TASK ANALYSIS -->
+  <div class="reveal">
+    <div class="s-label" style="margin-bottom:6px">Task Analysis</div>
+    <p style="font-family:var(--syne);font-size:0.6rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--mid);margin-bottom:20px">End-to-end workflow mapping, before any research began</p>
+    <div class="task-flow">
+      <div class="task-row">
+        <div class="task-phase">Prepare</div>
+        <div class="task-steps">
+          <div class="task-step"><span class="step-n">01</span>Identify research question</div>
+          <div class="task-step pain"><span class="step-n">02</span>Open Houaiss browser tab</div>
+          <div class="task-step pain"><span class="step-n">03</span>Log in to Houaiss</div>
+          <div class="task-step pain"><span class="step-n">04</span>Open Aur&eacute;lio tab</div>
+          <div class="task-step pain"><span class="step-n">05</span>Log in to Aur&eacute;lio</div>
+          <div class="task-step pain"><span class="step-n">06</span>Open Michaelis + log in</div>
+          <div class="task-step pain"><span class="step-n">07</span>Open Priberam + log in</div>
+        </div>
+      </div>
+      <div class="task-row" style="margin-top:3px">
+        <div class="task-phase p2">Search</div>
+        <div class="task-steps">
+          <div class="task-step pain"><span class="step-n">08</span>Type word in Houaiss</div>
+          <div class="task-step pain"><span class="step-n">09</span>Screenshot / copy result</div>
+          <div class="task-step pain"><span class="step-n">10</span>Switch tab &rarr; Aur&eacute;lio</div>
+          <div class="task-step pain"><span class="step-n">11</span>Re-type same word</div>
+          <div class="task-step pain"><span class="step-n">12</span>Copy result</div>
+          <div class="task-step pain"><span class="step-n">13</span>Repeat &times;3 more dicts</div>
+        </div>
+      </div>
+      <div class="task-row" style="margin-top:3px">
+        <div class="task-phase p3">Synthesise</div>
+        <div class="task-steps">
+          <div class="task-step pain"><span class="step-n">14</span>Paste all into doc / sheet</div>
+          <div class="task-step pain"><span class="step-n">15</span>Manually label each source</div>
+          <div class="task-step"><span class="step-n">16</span>Compare definitions</div>
+          <div class="task-step"><span class="step-n">17</span>Note discrepancies</div>
+          <div class="task-step"><span class="step-n">18</span>Follow related words</div>
+        </div>
+      </div>
+      <div class="task-row" style="margin-top:3px">
+        <div class="task-phase p4" style="background:#c0392b">Cite</div>
+        <div class="task-steps">
+          <div class="task-step pain"><span class="step-n">19</span>Return to each tab to get URL</div>
+          <div class="task-step pain"><span class="step-n">20</span>Check URL hasn&rsquo;t changed</div>
+          <div class="task-step pain"><span class="step-n">21</span>Format citation per style guide</div>
+          <div class="task-step pain"><span class="step-n">22</span>Verify all sources captured</div>
+          <div class="task-step pain"><span class="step-n">23</span>Hope nothing breaks before pub.</div>
+        </div>
+      </div>
+    </div>
+    <div class="task-total">
+      <div class="tt-item"><div class="tt-n">23<span></span></div><div class="tt-l">total steps</div></div>
+      <div class="tt-div"></div>
+      <div class="tt-item"><div class="tt-n">18<span style="color:#fca5a5"></span></div><div class="tt-l">friction steps</div></div>
+      <div class="tt-div"></div>
+      <div class="tt-item"><div class="tt-n" style="color:var(--accent)">4</div><div class="tt-l">actual research</div></div>
+      <div class="tt-div"></div>
+      <div class="tt-item"><div class="tt-n" style="color:#86efac">5<span style="color:#86efac;font-size:1rem">&rarr;1</span></div><div class="tt-l">logins &rarr; one search</div></div>
+    </div>
+    <div class="pain-legend">
+      <div class="pl-item"><div class="pl-dot" style="background:white;border:1.5px solid var(--border)"></div>Research step</div>
+      <div class="pl-item"><div class="pl-dot" style="background:#fff5f5;border:1.5px solid #fca5a5"></div>Friction / waste</div>
+    </div>
+  </div>
+</section>
+
+<section class="s" id="define">
+  <div class="s-label">04 / Key Findings + Design Principles</div>
+  <h2 class="s-title reveal">Four things research kept saying</h2>
+  <div class="cols2 reveal">
+    <div>
+      <div class="finding"><div class="fn">F1</div><div class="ft"><strong>The bottleneck was access, not analysis.</strong> Every participant spent more time preparing data than doing research. The problem was structural, not intellectual.</div></div>
+      <div class="finding"><div class="fn">F2</div><div class="ft"><strong>Provenance was non-negotiable.</strong> Knowing which dictionary a definition came from was as important as the definition itself. Source attribution could not be obscured.</div></div>
+      <div class="finding"><div class="fn">F3</div><div class="ft"><strong>Researchers navigate by association.</strong> Nobody had one word and one question. They followed etymological threads and needed to wander, not just look up.</div></div>
+      <div class="finding"><div class="fn">F4</div><div class="ft"><strong>Institutional trust varied by dictionary.</strong> Houaiss for modern usage, DHLP for historical depth. Expertise about sources was part of the research itself.</div></div>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:12px">
+        <div class="card-label">The design question</div>
+        <p style="font-family:var(--serif);font-style:italic;font-size:1.1rem;line-height:1.6;margin-top:8px;color:var(--black)">How do we reduce time from question to first result while preserving the institutional identity that makes each source academically credible?</p>
+      </div>
+      <div class="card">
+        <div class="card-label">What we chose not to build</div>
+        <div class="finding"><div class="fn" style="color:var(--mid)">No</div><div class="ft">A merged corpus, researchers wanted unified <em>access</em>, not unified data</div></div>
+        <div class="finding"><div class="fn" style="color:var(--mid)">No</div><div class="ft">AI summaries, every participant was skeptical of any layer between them and the source</div></div>
+        <div class="finding"><div class="fn" style="color:var(--mid)">No</div><div class="ft">Account-gated access, researchers needed permanent, citable, anonymous URLs</div></div>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:56px" class="reveal">
+    <div class="s-label" style="margin-bottom:24px">Design principles</div>
+    <div class="principle"><div class="pr-num">Principle 01</div><div class="pr-body"><h3>Abstraction as access</h3><p>Hide schema complexity. Surface only result, source, and match reason. The complexity lives in the system, not in the researcher's head.</p></div></div>
+    <div class="principle"><div class="pr-num">Principle 02</div><div class="pr-body"><h3>Source identity is always visible</h3><p>Every result carries its dictionary at all times. Provenance is not metadata, it is content.</p></div></div>
+    <div class="principle"><div class="pr-num">Principle 03</div><div class="pr-body"><h3>Support wandering</h3><p>Related words and derivations surface passively. Following a thread should be as easy as starting one.</p></div></div>
+  </div>
+</section>
+
+<section class="s s-sand" id="flows">
+  <div class="s-label">05 / User Flow</div>
+  <h2 class="s-title reveal">From question to cited result</h2>
+  <p class="prose reveal" style="margin-bottom:36px;max-width:560px">One search replaces five separate logins. Provenance is visible at every step, researchers never lose track of where a result came from.</p>
+
+  <div class="reveal">
+    <!-- Main linear flow -->
+    <div class="sketch-flow">
+      <div class="sf-row">
+        <div class="sf-step" style="--r:-0.4deg">
+          <div class="sf-num">01</div>
+          <div class="sf-label">Land on Diciobase</div>
+          <div class="sf-sub">Clean search, no dashboard noise</div>
+        </div>
+        <div class="sf-arr"></div>
+        <div class="sf-step" style="--r:0.6deg">
+          <div class="sf-num">02</div>
+          <div class="sf-label">Type query</div>
+          <div class="sf-sub">Instructional placeholder guides scope</div>
+        </div>
+        <div class="sf-arr"></div>
+        <div class="sf-step" style="--r:-0.3deg">
+          <div class="sf-num">03</div>
+          <div class="sf-label">Select sources</div>
+          <div class="sf-sub">Chips, all 5 visible at a glance</div>
+        </div>
+        <div class="sf-arr"></div>
+        <div class="sf-step" style="--r:0.5deg">
+          <div class="sf-num">04</div>
+          <div class="sf-label">Results stream in</div>
+          <div class="sf-sub">Color-coded by dictionary, parallel query</div>
+        </div>
+      </div>
+      <div class="sf-branch"></div>
+      <div class="sf-row">
+        <div class="sf-step" style="--r:0.4deg">
+          <div class="sf-num">05</div>
+          <div class="sf-label">Scan result list</div>
+          <div class="sf-sub">Source color visible before any text</div>
+        </div>
+        <div class="sf-arr"></div>
+        <div class="sf-step" style="--r:-0.5deg">
+          <div class="sf-num">06</div>
+          <div class="sf-label">Select entry</div>
+          <div class="sf-sub">Detail panel opens, list stays visible</div>
+        </div>
+        <div class="sf-arr"></div>
+        <div class="sf-step" style="--r:0.3deg">
+          <div class="sf-num">07</div>
+          <div class="sf-label">Read definition + etymology</div>
+          <div class="sf-sub">Raw source data, nothing normalized</div>
+        </div>
+        <div class="sf-arr"></div>
+        <div class="sf-step alt" style="--r:-0.4deg">
+          <div class="sf-num">08a</div>
+          <div class="sf-label">Follow related word</div>
+          <div class="sf-sub">Pill click &rarr; new search, no dead ends</div>
+        </div>
+      </div>
+      <div class="sf-branch"></div>
+      <div class="sf-row">
+        <div class="sf-step alt" style="--r:0.5deg;flex:0 0 200px">
+          <div class="sf-num">08b (branch)</div>
+          <div class="sf-label">Enter Compare Mode</div>
+          <div class="sf-sub">One click &rarr; 3 columns, same word, different sources</div>
+        </div>
+        <div class="sf-arr"></div>
+        <div class="sf-step" style="--r:-0.3deg">
+          <div class="sf-num">09</div>
+          <div class="sf-label">Copy permanent URL</div>
+          <div class="sf-sub">Content-addressed, immutable for citations</div>
+        </div>
+        <div class="sf-arr"></div>
+        <div class="sf-step" style="--r:0.4deg">
+          <div class="sf-num">10</div>
+          <div class="sf-label">Cite or export</div>
+          <div class="sf-sub">Citation-safe from day one</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:12px;margin-top:14px;flex-wrap:wrap" class="reveal">
+      <div style="display:flex;align-items:center;gap:7px;font-family:var(--syne);font-size:0.82rem;color:var(--mid)"><div style="width:12px;height:12px;background:white;border:2px solid var(--black);border-radius:2px;flex-shrink:0"></div> Standard step</div>
+      <div style="display:flex;align-items:center;gap:7px;font-family:var(--syne);font-size:0.82rem;color:var(--mid)"><div style="width:12px;height:12px;background:var(--sand);border:2px dashed var(--black);border-radius:2px;flex-shrink:0"></div> Optional branch</div>
+      <div style="margin-left:auto;font-family:var(--syne);font-size:0.82rem;color:var(--mid)">One search replaces 5 separate logins &amp; 23 manual steps</div>
+    </div>
+  </div>
+</section>
+
+<section class="s" id="design">
+  <div class="s-label">06 / Design Process</div>
+  <h2 class="s-title reveal">3 iterations. Each one tested with real researchers.</h2>
+  <p class="prose reveal" style="margin-bottom:32px">I built wireframes in Figma starting at the lowest fidelity I was comfortable sharing, then brought each version back to original research participants before moving forward. Each round pushed the design somewhere unexpected.</p>
+
+  <div class="lofi-row reveal">
+    <div class="lofi-item">
+      <div class="wf-frame lofi-frame">
+        <div class="wf-bar"><div class="wd wr"></div><div class="wd wy"></div><div class="wd wg"></div><div class="wf-file">Search</div></div>
+        <div class="wf-screen"><img src="assets/diciobase-lofi-2.png" alt="Diciobase search and filters" /></div>
+      </div>
+      <p class="screen-label">Screen 1, Search & Filters</p>
+    </div>
+    <div class="lofi-item">
+      <div class="wf-frame lofi-frame">
+        <div class="wf-bar"><div class="wd wr"></div><div class="wd wy"></div><div class="wd wg"></div><div class="wf-file">Results</div></div>
+        <div class="wf-screen"><img src="assets/diciobase-lofi-1.png" alt="Diciobase results and detail" /></div>
+      </div>
+      <p class="screen-label">Screen 2, Results & Detail</p>
+    </div>
+    <div class="lofi-item">
+      <div class="wf-frame lofi-frame">
+        <div class="wf-bar"><div class="wd wr"></div><div class="wd wy"></div><div class="wd wg"></div><div class="wf-file">Compare</div></div>
+        <div class="wf-screen"><img src="assets/diciobase-lofi-3.png" alt="Diciobase comparison mode" /></div>
+      </div>
+      <p class="screen-label">Screen 3, Comparison Mode</p>
+    </div>
+  </div>
+</section>
+
+<section class="s" id="wireframes">
+  <div class="s-label">06 / Wireframes</div>
+  <h2 class="s-title reveal">Mid-fidelity Figma frames, tested and annotated</h2>
+
+  <div class="reveal" style="margin-bottom:40px">
+    <div class="screen-label">Screen 1 / 3, Search and Filters</div>
+    <div class="wf-frame">
+      <div class="wf-bar"><div class="wd wr"></div><div class="wd wy"></div><div class="wd wg"></div><div class="wf-file">Diciobase / Search State</div></div>
+      <div class="wf-screen">
+        <div class="wf-app">
+          <div class="wf-top">
+            <div class="wf-logo" style="width:80px;height:11px;background:rgba(255,255,255,0.2);border-radius:2px"></div>
+            <div class="wf-navs"><div class="wf-ni"></div><div class="wf-ni"></div><div class="wf-ni"></div></div>
+          </div>
+          <div class="wf-search-center">
+            <div class="wf-search-title">Diciobase</div>
+            <div class="wf-search-sub">Pesquisa em 5 dicion&aacute;rios simult&acirc;neos</div>
+            <div class="wf-search-box">
+              <span class="wf-search-icon">&#9906;</span>
+              <span class="wf-search-ph">Buscar em todos os dicion&aacute;rios&hellip;</span>
+            </div>
+            <div class="wf-chips-row">
+              <div class="wc-src h on"><div class="wc-dot"></div>Houaiss</div>
+              <div class="wc-src a on"><div class="wc-dot"></div>Aur&eacute;lio</div>
+              <div class="wc-src m on"><div class="wc-dot"></div>Michaelis</div>
+              <div class="wc-src p on"><div class="wc-dot"></div>Priberam</div>
+              <div class="wc-src i"><div class="wc-dot"></div>Infop&eacute;dia</div>
+            </div>
+            <div style="font-family:var(--syne);font-size:0.48rem;font-weight:600;color:#ccc;letter-spacing:0.06em;margin-top:4px">4 de 5 fontes selecionadas</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ann-grid">
+      <div class="ann"><div class="an">A</div><div class="at"><strong>Centered search on first load.</strong> Research showed search was the only first-load task. No dashboard, no clutter. Driven by F1.</div></div>
+      <div class="ann"><div class="an">B</div><div class="at"><strong>Chips not dropdowns.</strong> V1 proved dropdowns caused confusion immediately. Chips show all sources at a glance in one tap.</div></div>
+      <div class="ann"><div class="an">C</div><div class="at"><strong>Instructional placeholder.</strong> Researchers needed to know this was cross-database search, not a single-dictionary lookup.</div></div>
+    </div>
+  </div>
+
+  <div class="reveal" style="margin-bottom:40px">
+    <div class="screen-label">Screen 2 / 3, Results and Detail View</div>
+    <div class="wf-frame">
+      <div class="wf-bar"><div class="wd wr"></div><div class="wd wy"></div><div class="wd wg"></div><div class="wf-file">Diciobase / Results + Detail</div></div>
+      <div class="wf-screen">
+        <div class="wf-app">
+          <div class="wf-top">
+            <div class="wf-logo" style="width:80px;height:11px;background:rgba(255,255,255,0.2);border-radius:2px"></div>
+            <div style="flex:1;margin:0 12px">
+              <div style="height:26px;background:rgba(255,255,255,0.1);border-radius:4px;display:flex;align-items:center;padding:0 10px;gap:8px">
+                <span style="font-family:var(--syne);font-size:0.58rem;font-weight:600;color:rgba(255,255,255,0.6)">saudade</span>
+                <span style="font-size:0.5rem;color:rgba(255,255,255,0.25);margin-left:auto">&#10005;</span>
+              </div>
+            </div>
+            <div class="wf-navs"><div class="wf-ni"></div></div>
+          </div>
+          <div style="padding:8px 12px;background:#f9f9f9;border-bottom:1px solid #eee;display:flex;align-items:center;gap:6px">
+            <span style="font-family:var(--syne);font-size:0.5rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#bbb">12 resultados em</span>
+            <div class="wc-src h on" style="height:18px;font-size:0.48rem"><div class="wc-dot"></div>Houaiss</div>
+            <div class="wc-src a on" style="height:18px;font-size:0.48rem"><div class="wc-dot"></div>Aur&eacute;lio</div>
+            <div class="wc-src m on" style="height:18px;font-size:0.48rem"><div class="wc-dot"></div>Michaelis</div>
+            <div class="wc-src p on" style="height:18px;font-size:0.48rem"><div class="wc-dot"></div>Priberam</div>
+          </div>
+          <div class="wf-split2">
+            <div class="wf-results-list">
+              <div class="wf-results-header">Resultados</div>
+              <div class="wf-ri2 src-houaiss sel" style="border-left-color:#2563eb">
+                <div class="wf-ri2-word">saudade</div>
+                <div class="wf-ri2-src" style="color:#2563eb">Houaiss</div>
+              </div>
+              <div class="wf-ri2 src-aurelio" style="border-left-color:#16a34a">
+                <div class="wf-ri2-word">saudade</div>
+                <div class="wf-ri2-src" style="color:#16a34a">Aur&eacute;lio</div>
+              </div>
+              <div class="wf-ri2 src-michaelis" style="border-left-color:#9333ea">
+                <div class="wf-ri2-word">saudade</div>
+                <div class="wf-ri2-src" style="color:#9333ea">Michaelis</div>
+              </div>
+              <div class="wf-ri2 src-priberam" style="border-left-color:#d97706">
+                <div class="wf-ri2-word">saudade</div>
+                <div class="wf-ri2-src" style="color:#d97706">Priberam</div>
+              </div>
+              <div class="wf-ri2 src-houaiss" style="border-left-color:#2563eb">
+                <div class="wf-ri2-word">saudosismo</div>
+                <div class="wf-ri2-src" style="color:#2563eb">Houaiss</div>
+              </div>
+              <div class="wf-ri2 src-aurelio" style="border-left-color:#16a34a">
+                <div class="wf-ri2-word">saudosismo</div>
+                <div class="wf-ri2-src" style="color:#16a34a">Aur&eacute;lio</div>
+              </div>
+              <div class="wf-ri2 src-michaelis" style="border-left-color:#9333ea">
+                <div class="wf-ri2-word">saudoso</div>
+                <div class="wf-ri2-src" style="color:#9333ea">Michaelis</div>
+              </div>
+            </div>
+            <div class="wf-detail">
+              <div>
+                <span class="src-badge" style="background:#dbeafe;color:#1d4ed8">Houaiss</span>
+                <div class="wf-detail-word">saudade</div>
+                <span class="wf-detail-pos">substantivo feminino</span>
+              </div>
+              <div class="wf-detail-def">Sentimento de pesar, melancólico e suave, pela aus&ecirc;ncia ou perda de pessoa, coisa ou situa&ccedil;&atilde;o; nostalgia. // Lembrança carinhosa e suave de pessoas, coisas ou situa&ccedil;&otilde;es agradáveis do passado.</div>
+              <div class="wf-detail-etym">Do gal.-port. <em>soidades</em>, do lat. <em>solitas</em>, &ldquo;solidão&rdquo;, com efeito de cruzamento com <em>saude</em>.</div>
+              <div>
+                <div class="wf-related-label">Relacionadas</div>
+                <div class="wf-pills">
+                  <div class="wf-pill">saudoso</div>
+                  <div class="wf-pill">saudosismo</div>
+                  <div class="wf-pill">nostalgia</div>
+                  <div class="wf-pill">melancolia</div>
+                  <div class="wf-pill">longing</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ann-grid">
+      <div class="ann"><div class="an">A</div><div class="at"><strong>Split panel preserves context.</strong> Found by watching participants scroll back and forth in V2. Researcher reads a detail while the full list stays visible.</div></div>
+      <div class="ann"><div class="an">B</div><div class="at"><strong>Source color on result left border.</strong> Where a result came from is visible before any text is read. Directly addresses F2: provenance is content.</div></div>
+      <div class="ann"><div class="an">C</div><div class="at"><strong>Related words as tappable pills.</strong> Surfaces lateral navigation from F3. Clicking triggers a new search, no dead ends, no page loads.</div></div>
+    </div>
+  </div>
+
+  <div class="reveal">
+    <div class="screen-label">Screen 3 / 3, Comparison Mode</div>
+    <div class="wf-frame">
+      <div class="wf-bar"><div class="wd wr"></div><div class="wd wy"></div><div class="wd wg"></div><div class="wf-file">Diciobase / Comparison Mode</div></div>
+      <div class="wf-screen">
+        <div class="wf-app">
+          <div class="wf-top">
+            <div class="wf-logo" style="width:80px;height:11px;background:rgba(255,255,255,0.2);border-radius:2px"></div>
+            <div style="flex:1;margin:0 12px">
+              <div style="height:26px;background:rgba(255,255,255,0.1);border-radius:4px;display:flex;align-items:center;padding:0 10px">
+                <span style="font-family:var(--syne);font-size:0.58rem;font-weight:600;color:rgba(255,255,255,0.6)">saudade</span>
+              </div>
+            </div>
+            <div class="wf-navs"><div class="wf-ni"></div></div>
+          </div>
+          <div class="wf-compare-top">
+            <span class="wf-compare-word">saudade</span>
+            <span style="font-family:var(--syne);font-size:0.48rem;font-weight:600;color:#bbb;letter-spacing:0.06em">3 fontes &middot; modo compara&ccedil;&atilde;o</span>
+            <span class="wf-compare-badge">Comparar</span>
+          </div>
+          <div class="wf-cols3">
+            <div class="wf-col">
+              <div class="wf-col-head" style="background:#2563eb"></div>
+              <div class="wf-col-src" style="color:#2563eb">Houaiss</div>
+              <div class="wf-col-word">saudade</div>
+              <div class="wf-col-pos">subst. fem.</div>
+              <div class="wf-col-def">Sentimento de pesar, melancólico e suave, pela aus&ecirc;ncia ou perda de pessoa, coisa ou situa&ccedil;&atilde;o. Nostalgia.</div>
+              <div class="wf-col-etym">Do gal.-port. <em>soidades</em>, do lat. <em>solitas</em> &ldquo;solit&atilde;o&rdquo;</div>
+              <div class="wf-col-tags">
+                <div class="wf-col-tag">substantivo</div>
+                <div class="wf-col-tag">feminino</div>
+                <div class="wf-col-tag">por. europeu</div>
+              </div>
+            </div>
+            <div class="wf-col">
+              <div class="wf-col-head" style="background:#16a34a"></div>
+              <div class="wf-col-src" style="color:#16a34a">Aur&eacute;lio</div>
+              <div class="wf-col-word">saudade</div>
+              <div class="wf-col-pos">subst. fem.</div>
+              <div class="wf-col-def">Lembrança suave e carinhosa, com m&aacute;goa ou desejo, de pessoas ou coisas distantes ou perdidas. Estado de quem assim se recorda.</div>
+              <div class="wf-col-etym">Cf. port. <em>soidade</em>, cast. <em>soledad</em></div>
+              <div class="wf-col-tags">
+                <div class="wf-col-tag">substantivo</div>
+                <div class="wf-col-tag">pop. brás.</div>
+              </div>
+            </div>
+            <div class="wf-col">
+              <div class="wf-col-head" style="background:#d97706"></div>
+              <div class="wf-col-src" style="color:#d97706">Priberam</div>
+              <div class="wf-col-word">saudade</div>
+              <div class="wf-col-pos">subst. fem.</div>
+              <div class="wf-col-def">Lembrança terna e m&aacute;goa de algu&eacute;m ou de alguma coisa ausente. Anseio de algu&eacute;m que est&aacute; longe. Ver: <em>soidade</em>.</div>
+              <div class="wf-col-etym">Do gal.-port. <em>soydade</em>, s&eacute;c. XIII</div>
+              <div class="wf-col-tags">
+                <div class="wf-col-tag">por. europeu</div>
+                <div class="wf-col-tag">hist.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ann-grid">
+      <div class="ann"><div class="an">A</div><div class="at"><strong>Three columns mirrors existing behavior.</strong> Multiple participants described printing pages to place side by side. This formalizes what they already did.</div></div>
+      <div class="ann"><div class="an">B</div><div class="at"><strong>Source color as first element in each column.</strong> Provenance never leaves the visual field, even in dense comparison mode.</div></div>
+      <div class="ann"><div class="an">C</div><div class="at"><strong>A mode.</strong> One click from results to comparison. A full page navigation would break the research flow entirely.</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="s s-sand" id="engineering">
+  <div class="s-label">08 / Engineering Shaped by Research</div>
+  <h2 class="s-title reveal">What researchers said changed how I built the backend</h2>
+  <div class="dtable reveal">
+    <div class="drow">
+      <div class="dcell"><div class="dc-lab dc-ch">Research finding</div><p class="dc-text">Researchers described search feeling "slow and uncertain." They re-submitted searches because they couldn't distinguish a slow system from no results.</p></div>
+      <div class="dcell"><div class="dc-lab dc-re">Engineering response</div><p class="dc-text">Switched to <strong>parallel query execution</strong> across all five sources. PostgreSQL full-text search with composite B-tree indexing cut latency from 680ms to 410ms. Streaming added so results appear as they arrive.</p></div>
+    </div>
+    <div class="drow">
+      <div class="dcell"><div class="dc-lab dc-ch">Research finding</div><p class="dc-text">A researcher described amending a published paper because a database restructured its URLs mid-project, breaking her academic citation.</p></div>
+      <div class="dcell"><div class="dc-lab dc-re">Engineering response</div><p class="dc-text">Designed <strong>permanent, content-addressed URLs</strong> hashed from source ID and entry ID. Immutable regardless of upstream restructuring. Citation-safe from day one.</p></div>
+    </div>
+    <div class="drow">
+      <div class="dcell"><div class="dc-lab dc-ch">Research finding</div><p class="dc-text">"If Houaiss says something and Aurelio says something different, I need to see both. Not an average." Researchers were skeptical of anything that normalized data across sources.</p></div>
+      <div class="dcell"><div class="dc-lab dc-re">Engineering response</div><p class="dc-text">Built an <strong>abstraction layer that translates queries without transforming data.</strong> Raw field structures preserved per source. The query layer maps common concepts without modifying source content.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="s s-dark" id="outcomes">
+  <div class="s-label" style="color:var(--accent)">09 / Outcomes</div>
+  <h2 class="s-title reveal" style="color:var(--white)">What changed for researchers</h2>
+  <div class="outcome-band reveal">
+    <div class="oi"><div class="on-num">40<span>%</span></div><div class="on-lab">Query time reduction through composite B-tree indexing, 680ms to 410ms</div></div>
+    <div class="oi"><div class="on-num"><span>~</span>0</div><div class="on-lab">Manual cross-referencing required. One search replaces five logins</div></div>
+    <div class="oi"><div class="on-num">5<span>+</span></div><div class="on-lab">International institutions unified through one non-destructive query layer</div></div>
+  </div>
+  <div class="cols2 reveal" style="margin-top:52px">
+    <div>
+      <p class="prose prose-light">After the V3 usability session, the UFBA PhD researcher from my very first interview sent an unprompted follow-up message.</p>
+      <blockquote class="pq dark" style="margin-top:22px">"I looked up a word for a paper. It took me four minutes including reading the results. That used to take my whole morning."<cite><span>PhD Researcher</span> / UFBA, original research participant</cite></blockquote>
+    </div>
+    <div>
+      <div class="card" style="background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.08)"><div class="card-label" style="color:var(--accent)">What I learned</div><p style="color:rgba(250,248,244,0.56);font-size:0.88rem;line-height:1.7">The research phase did not slow this project down. It changed what the project was. Every hour spent interviewing saved hours of building the wrong thing. The ten-dropdown V1 wasn't a bad design, it was a design made without user knowledge.</p></div>
+      <div class="card" style="background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.08);margin-top:11px"><div class="card-label" style="color:var(--accent)">What comes next</div><p style="color:rgba(250,248,244,0.56);font-size:0.88rem;line-height:1.7">Returning fall 2025 to build a semantic timeline feature and run a second research phase focused entirely on the lexicographer use case.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer style="padding:26px 52px">
+  <div style="font-family:var(--syne);font-weight:700;font-size:0.8rem">Genna <span style="color:var(--accent)">Gonzaga</span></div>
+  <div style="display:flex;align-items:center;gap:24px">
+    <a href="index.html" style="font-family:var(--syne);font-size:0.68rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--black);text-decoration:none;border-bottom:1px solid var(--black);padding-bottom:2px">Back to all work</a>
+    <span style="font-family:var(--syne);font-size:0.62rem;letter-spacing:0.08em;color:var(--mid);text-transform:uppercase">Diciobase Case Study / 2025</span>
+  </div>
+</footer>
+
+<script>
+document.body.classList.add('page-ready');
+document.addEventListener('click',function(e){
+  var a=e.target.closest('a[href]');
+  if(!a||a.target==='_blank'||a.href.startsWith('mailto:')||a.href.startsWith('#'))return;
+  var href=a.getAttribute('href');
+  if(!href||href==='#'||!/\.html$|^index\.html$/i.test(href))return;
+  if(a.origin!==location.origin&&!href.startsWith('/')&&!href.startsWith('./')&&!href.match(/^[a-z0-9-]+\.html$/))return;
+  e.preventDefault();
+  if(/index\.html$/i.test(href)||href==='index.html')sessionStorage.setItem('skipLoader','1');
+  document.body.classList.add('page-leaving');
+  setTimeout(function(){location.href=a.href;},150);
+},true);
+(function(){document.querySelectorAll(".reveal").forEach(function(el){el.classList.add("visible")})})();
+var dot=document.getElementById("cdot"),ring=document.getElementById("cring"),mx=0,my=0,rx=0,ry=0;
+document.addEventListener("mousemove",function(e){mx=e.clientX;my=e.clientY;dot.style.left=mx+"px";dot.style.top=my+"px";});
+(function tick(){rx+=(mx-rx)*0.11;ry+=(my-ry)*0.11;ring.style.left=rx+"px";ring.style.top=ry+"px";requestAnimationFrame(tick);})();
+document.querySelectorAll("a,button").forEach(function(el){
+  el.addEventListener("mouseenter",function(){dot.style.width="12px";dot.style.height="12px";ring.style.width="54px";ring.style.height="54px";});
+  el.addEventListener("mouseleave",function(){dot.style.width="7px";dot.style.height="7px";ring.style.width="38px";ring.style.height="38px";});
+});
+const io=new IntersectionObserver(entries=>{entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*100);io.unobserve(e.target)}})},{threshold:0.07});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+function revealInView(){document.querySelectorAll('.reveal').forEach(function(el){var r=el.getBoundingClientRect();if(r.top<window.innerHeight+100)el.classList.add('visible')})}
+function revealAll(){document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('visible')})}
+window.addEventListener('DOMContentLoaded',revealAll);
+window.addEventListener('load',function(){revealAll();setTimeout(revealInView,50);setTimeout(revealAll,200)});
+window.addEventListener('scroll',function(){requestAnimationFrame(revealInView)});
+const sections=['context','problem','research','define','flows','design','wireframes','engineering','outcomes'];
+function updateActiveNav(){const scrollY=window.scrollY;const vh=window.innerHeight*0.35;let active='context';sections.forEach(id=>{const el=document.getElementById(id);if(el&&el.offsetTop<=scrollY+vh)active=id});document.querySelectorAll('.case-study-nav a').forEach(a=>{a.classList.toggle('active',a.getAttribute('href')==='#'+active)});const navWrap=document.querySelector('.case-study-nav-wrap');const navHome=document.querySelector('.case-study-home');const overDark=active==='problem'||active==='outcomes';if(navWrap)navWrap.classList.toggle('nav-over-dark',overDark);if(navHome)navHome.classList.toggle('nav-over-dark',overDark)}
+window.addEventListener('scroll',()=>requestAnimationFrame(updateActiveNav));
+window.addEventListener('load',updateActiveNav);
+const hero=document.querySelector('.hero');
+const navWrap=document.querySelector('.case-study-nav-wrap');
+function updateNavVisibility(){const heroBottom=hero?hero.offsetTop+hero.offsetHeight:400;const homeEl=document.querySelector('.case-study-home');if(window.scrollY>heroBottom-80){navWrap&&navWrap.classList.add('nav-visible');document.body.classList.add('has-bottom-nav');if(homeEl){homeEl.style.opacity='0';homeEl.style.pointerEvents='none'}}else{navWrap&&navWrap.classList.remove('nav-visible');document.body.classList.remove('has-bottom-nav');if(homeEl){homeEl.style.opacity='1';homeEl.style.pointerEvents='auto'}}}
+window.addEventListener('scroll',()=>requestAnimationFrame(updateNavVisibility));
+updateNavVisibility();
+</script>
+</body>
+</html>
