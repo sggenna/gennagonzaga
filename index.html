@@ -467,22 +467,19 @@ document.addEventListener('click', function(e) {
   setTimeout(function() { location.href = a.href; }, 350);
 }, true);
 
-// Loader — only on first load; skip when returning from case studies (fade in instead)
+// Loader — only on first load; skip when returning from case studies
+document.body.classList.add('page-ready');
 var _loader = document.getElementById('loader');
 if (sessionStorage.getItem('skipLoader')) {
   sessionStorage.removeItem('skipLoader');
   if (_loader) _loader.style.display = 'none';
-  document.body.classList.add('page-ready');
-} else {
-  document.body.classList.add('page-ready');
-  if (_loader) {
-    setTimeout(function() {
-      _loader.style.transition = 'opacity 0.8s ease';
-      _loader.style.opacity = '0';
-      _loader.style.pointerEvents = 'none';
-      setTimeout(function() { _loader.style.display = 'none'; }, 850);
-    }, 2400);
-  }
+} else if (_loader) {
+  setTimeout(function() {
+    _loader.style.transition = 'opacity 0.8s ease';
+    _loader.style.opacity = '0';
+    _loader.style.pointerEvents = 'none';
+    setTimeout(function() { _loader.style.display = 'none'; }, 850);
+  }, 2400);
 }
 
 // Cursor
