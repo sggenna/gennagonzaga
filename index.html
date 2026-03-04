@@ -455,6 +455,16 @@ img{max-width:100%;height:auto;display:block}
 </footer>
 
 <script>
+// Fix back button — when page is restored from cache, remove page-leaving so content shows
+window.addEventListener('pageshow', function(e) {
+  if (e.persisted) {
+    document.body.classList.remove('page-leaving');
+    document.body.classList.add('page-ready');
+    var l = document.getElementById('loader');
+    if (l) l.style.display = 'none';
+  }
+});
+
 // Page transitions — fade in on load, fade out before navigating
 document.addEventListener('click', function(e) {
   var a = e.target.closest('a[href]');

@@ -485,6 +485,7 @@ footer{display:flex;align-items:center;justify-content:space-between;border-top:
 
 <script>
 document.body.classList.add('page-ready');
+window.addEventListener('pageshow',function(e){if(e.persisted){document.body.classList.remove('page-leaving');document.body.classList.add('page-ready');}});
 document.addEventListener('click',function(e){
   var a=e.target.closest('a[href]');
   if(!a||a.target==='_blank'||a.href.startsWith('mailto:')||a.href.startsWith('#'))return;

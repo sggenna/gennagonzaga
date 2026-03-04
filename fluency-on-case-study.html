@@ -711,6 +711,7 @@ h2.s-title{font-family:var(--serif);font-size:clamp(2rem,3.8vw,3.5rem);font-styl
 
 <script>
 document.body.classList.add('page-ready');
+window.addEventListener('pageshow',function(e){if(e.persisted){document.body.classList.remove('page-leaving');document.body.classList.add('page-ready');}});
 document.addEventListener('click',function(e){
   var a=e.target.closest('a[href]');
   if(!a||a.target==='_blank'||a.href.startsWith('mailto:')||a.href.startsWith('#'))return;
