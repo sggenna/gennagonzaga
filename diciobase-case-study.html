@@ -367,7 +367,7 @@ footer{display:flex;align-items:center;justify-content:space-between;border-top:
 <div class="cdot" id="cdot"></div>
 <div class="cring" id="cring"></div>
 
-<a href="index.html" class="case-study-home">Genna <em>Gonzaga</em></a>
+<a href="/" class="case-study-home">Genna <em>Gonzaga</em></a>
 <div class="case-study-nav-wrap">
   <nav class="case-study-nav">
     <a href="#context" class="nav-item active">Context</a>
@@ -997,7 +997,7 @@ footer{display:flex;align-items:center;justify-content:space-between;border-top:
 <footer style="padding:26px 52px">
   <div style="font-family:var(--syne);font-weight:700;font-size:0.8rem">Genna <span style="color:var(--accent)">Gonzaga</span></div>
   <div style="display:flex;align-items:center;gap:24px">
-    <a href="index.html" style="font-family:var(--syne);font-size:0.68rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--black);text-decoration:none;border-bottom:1px solid var(--black);padding-bottom:2px">Back to all work</a>
+    <a href="/" style="font-family:var(--syne);font-size:0.68rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--black);text-decoration:none;border-bottom:1px solid var(--black);padding-bottom:2px">Back to all work</a>
     <span style="font-family:var(--syne);font-size:0.62rem;letter-spacing:0.08em;color:var(--mid);text-transform:uppercase">Diciobase Case Study / 2025</span>
   </div>
 </footer>
@@ -1008,10 +1008,10 @@ document.addEventListener('click',function(e){
   var a=e.target.closest('a[href]');
   if(!a||a.target==='_blank'||a.href.startsWith('mailto:')||a.href.startsWith('#'))return;
   var href=a.getAttribute('href');
-  if(!href||href==='#'||!/\.html$|^index\.html$/i.test(href))return;
+  if(!href||href==='#'||(!/\.html$|^index\.html$/i.test(href)&&href!=='/'&&href!==''))return;
   if(a.origin!==location.origin&&!href.startsWith('/')&&!href.startsWith('./')&&!href.match(/^[a-z0-9-]+\.html$/))return;
   e.preventDefault();
-  if(/index\.html$/i.test(href)||href==='index.html')sessionStorage.setItem('skipLoader','1');
+  if(/index\.html$/i.test(href)||href==='index.html'||href==='/'||href==='')sessionStorage.setItem('skipLoader','1');
   document.body.classList.add('page-leaving');
   setTimeout(function(){location.href=a.href;},150);
 },true);

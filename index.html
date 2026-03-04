@@ -472,7 +472,7 @@ var _loader = document.getElementById('loader');
 if (sessionStorage.getItem('skipLoader')) {
   sessionStorage.removeItem('skipLoader');
   if (_loader) _loader.style.display = 'none';
-  setTimeout(function() { document.body.classList.add('page-ready'); }, 80);
+  document.body.classList.add('page-ready');
 } else {
   document.body.classList.add('page-ready');
   if (_loader) {

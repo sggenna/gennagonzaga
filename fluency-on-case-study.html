@@ -242,7 +242,7 @@ h2.s-title{font-family:var(--serif);font-size:clamp(2rem,3.8vw,3.5rem);font-styl
 <div class="cdot" id="cdot"></div>
 <div class="cring" id="cring"></div>
 
-<a href="index.html" class="case-study-home">Genna <em>Gonzaga</em></a>
+<a href="/" class="case-study-home">Genna <em>Gonzaga</em></a>
 <div class="case-study-nav-wrap">
   <nav class="case-study-nav">
     <a href="#problem" class="nav-item active">Problem</a>
@@ -698,13 +698,13 @@ h2.s-title{font-family:var(--serif);font-size:clamp(2rem,3.8vw,3.5rem);font-styl
     <div class="pr-body"><h3>The most powerful decisions are eliminations.</h3><p>If a feature didn&rsquo;t answer &ldquo;who needs attention?&rdquo; or &ldquo;what do I do today?&rdquo; it was cut.</p></div>
   </div>
   <p class="reveal" style="font-family:var(--serif);font-style:italic;font-size:clamp(1.3rem,2.4vw,1.9rem);line-height:1.6;max-width:720px;margin:44px 0 0">Teachers should teach. Students should learn. The system should handle the rest.</p>
-  <div style="margin-top:36px" class="reveal"><a href="index.html" style="font-family:var(--syne);font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--black);text-decoration:none;border-bottom:1px solid var(--black);padding-bottom:3px;transition:color 0.2s,border-color 0.2s" onmouseover="this.style.color='#c8541c';this.style.borderColor='#c8541c'" onmouseout="this.style.color='#0d0d0b';this.style.borderColor='#0d0d0b'">Back to all work</a></div>
+  <div style="margin-top:36px" class="reveal"><a href="/" style="font-family:var(--syne);font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--black);text-decoration:none;border-bottom:1px solid var(--black);padding-bottom:3px;transition:color 0.2s,border-color 0.2s" onmouseover="this.style.color='#c8541c';this.style.borderColor='#c8541c'" onmouseout="this.style.color='#0d0d0b';this.style.borderColor='#0d0d0b'">Back to all work</a></div>
 </section>
 
 <footer style="padding:26px 52px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border);flex-wrap:wrap;gap:16px">
   <div style="font-family:var(--syne);font-weight:700;font-size:0.8rem">Genna <span style="color:var(--accent)">Gonzaga</span></div>
   <div style="display:flex;align-items:center;gap:24px">
-    <a href="index.html" style="font-family:var(--syne);font-size:0.68rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--black);text-decoration:none;border-bottom:1px solid var(--black);padding-bottom:2px">Back to all work</a>
+    <a href="/" style="font-family:var(--syne);font-size:0.68rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--black);text-decoration:none;border-bottom:1px solid var(--black);padding-bottom:2px">Back to all work</a>
     <span style="font-family:var(--syne);font-size:0.62rem;letter-spacing:0.08em;color:var(--mid);text-transform:uppercase">Fluency On Case Study / 2025</span>
   </div>
 </footer>
@@ -715,10 +715,10 @@ document.addEventListener('click',function(e){
   var a=e.target.closest('a[href]');
   if(!a||a.target==='_blank'||a.href.startsWith('mailto:')||a.href.startsWith('#'))return;
   var href=a.getAttribute('href');
-  if(!href||href==='#'||!/\.html$|^index\.html$/i.test(href))return;
+  if(!href||href==='#'||(!/\.html$|^index\.html$/i.test(href)&&href!=='/'&&href!==''))return;
   if(a.origin!==location.origin&&!href.startsWith('/')&&!href.startsWith('./')&&!href.match(/^[a-z0-9-]+\.html$/))return;
   e.preventDefault();
-  if(/index\.html$/i.test(href)||href==='index.html')sessionStorage.setItem('skipLoader','1');
+  if(/index\.html$/i.test(href)||href==='index.html'||href==='/'||href==='')sessionStorage.setItem('skipLoader','1');
   document.body.classList.add('page-leaving');
   setTimeout(function(){location.href=a.href;},150);
 },true);
